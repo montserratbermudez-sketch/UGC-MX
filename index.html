@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Un día siendo Repartidor · Concurso DiDi</title>
+<meta name="description" content="Cuenta tu día real repartiendo con DiDi y gánate una moto o un celular. Mérida y Aguascalientes, del 10 de agosto al 10 de septiembre.">
+<link rel="icon" href="images/icon-didi.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#FF5F14;
+    --orange-deep:#E14E00;
+    --orange-soft:#FFE8DB;
+    --orange-soft-2:#FFF3EA;
+    --ink:#2A2320;
+    --text-muted:#7A6F67;
+    --bg:#FFFFFF;
+    --bg-alt:#FFFAF6;
+    --line:#F2E2D6;
+    --ok-bg:#E9F9F1;
+    --ok-text:#1F8F5C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'DM Sans',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;height:auto;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 22px;}
+  h1,h2,h3{font-family:'Fredoka',sans-serif;font-weight:600;line-height:1.12;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:700;letter-spacing:0.5px;
+    color:var(--orange-deep);background:var(--orange-soft);
+    padding:6px 14px;border-radius:999px;margin-bottom:18px;
+  }
+
+  /* ---- header ---- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,0.92);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;max-width:880px;margin:0 auto;}
+  .nav img.logo-img{height:30px;width:auto;}
+  .nav a.cta-mini{
+    background:var(--orange);color:#fff;font-weight:700;font-size:13.5px;
+    padding:10px 18px;border-radius:999px;text-decoration:none;
+  }
+
+  /* ---- hero ---- */
+  .hero{padding:48px 0 20px;}
+  .hero-grid{display:grid;gap:26px;align-items:center;}
+  @media(min-width:720px){.hero-grid{grid-template-columns:1.15fr 0.85fr;}}
+  .hero h1{font-size:clamp(32px,7.5vw,50px);margin-bottom:16px;color:var(--ink);}
+  .hero h1 em{font-style:normal;color:var(--orange);}
+  .hero-hashtag{
+    font-family:'Fredoka',sans-serif;font-weight:700;
+    font-size:clamp(30px,7vw,46px);color:var(--orange);
+    display:inline-block;margin-bottom:6px;letter-spacing:-0.5px;
+    transform:rotate(-2deg);
+  }
+  .hero-sub{font-size:clamp(20px,4.5vw,28px);color:var(--ink);margin-bottom:16px;font-family:'Fredoka',sans-serif;font-weight:600;}
+  .hero p{font-size:17px;color:var(--text-muted);max-width:480px;margin-bottom:18px;}
+  .hero-urgency{
+    display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;
+    color:var(--orange-deep);background:var(--orange-soft);padding:8px 16px;
+    border-radius:999px;margin-bottom:22px;
+  }
+  .prize-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px;}
+  .prize-badge{
+    display:flex;align-items:center;gap:7px;background:#fff;border:1.5px solid var(--line);
+    border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:700;color:var(--ink);
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;}
+  .btn{
+    display:inline-block;padding:14px 26px;border-radius:999px;
+    font-weight:700;font-size:15px;text-decoration:none;text-align:center;
+    border:2px solid transparent;
+  }
+  .btn-primary{background:var(--orange);color:#fff;}
+  .btn-primary:hover{background:var(--orange-deep);}
+  .btn-ghost{border-color:var(--line);color:var(--ink);}
+  .hero-img-wrap{
+    background:var(--orange-soft-2);border-radius:24px;padding:20px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .hero-img-wrap img{max-height:260px;}
+
+  /* ---- route / "paradas" spine ---- */
+  .route{position:relative;padding:34px 0 10px;}
+  .route::before{
+    content:"";
+    position:absolute;left:29px;top:8px;bottom:0;width:3px;
+    background-image:linear-gradient(var(--orange-soft) 60%, transparent 40%);
+    background-size:3px 14px;background-repeat:repeat-y;
+  }
+  .stop{position:relative;padding:0 0 60px 74px;}
+  .stop:last-of-type{padding-bottom:20px;}
+  .pin{
+    position:absolute;left:0;top:-4px;width:60px;height:60px;
+    background:#fff;border:2.5px solid var(--orange);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:24px;
+    box-shadow:0 4px 10px rgba(255,95,20,0.15);
+  }
+  .stop-label{font-size:12.5px;font-weight:700;letter-spacing:1px;color:var(--orange-deep);margin-bottom:6px;text-transform:uppercase;}
+  .stop h2{font-size:clamp(22px,5vw,28px);margin-bottom:14px;color:var(--ink);}
+  .stop p{color:var(--text-muted);font-size:15.5px;max-width:560px;}
+  .stop p + p{margin-top:10px;}
+
+  /* ---- prize cards ---- */
+  .prize-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px;}
+  @media(min-width:620px){.prize-grid{grid-template-columns:1fr 1fr;}}
+  .prize-card{
+    background:var(--bg-alt);border:1px solid var(--line);border-radius:18px;padding:22px;
+  }
+  .prize-card .tag{
+    display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:0.5px;
+    background:var(--orange);color:#fff;padding:4px 12px;border-radius:999px;margin-bottom:10px;
+  }
+  .prize-card h3{font-size:16.5px;font-family:'Fredoka',sans-serif;font-weight:600;margin-bottom:6px;color:var(--ink);}
+  .prize-card p{color:var(--text-muted);font-size:14px;}
+
+  /* ---- city chips ---- */
+  .city-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px;}
+  .city-chip{
+    background:var(--orange);color:#fff;border-radius:16px;
+    padding:16px 24px;font-weight:700;font-size:17px;flex:1 1 160px;text-align:center;
+    font-family:'Fredoka',sans-serif;
+  }
+  .req-box{
+    margin-top:22px;background:var(--bg-alt);border-left:4px solid var(--orange);
+    padding:16px 18px;border-radius:10px;font-size:14.5px;color:var(--ink);
+  }
+  .req-box strong{color:var(--orange-deep);}
+
+  .city-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+  .city-card{
+    background:var(--bg-alt);border:2px solid var(--orange);border-radius:18px;
+    padding:20px;text-align:center;
+  }
+  .city-card .city-icon{font-size:28px;margin-bottom:8px;}
+  .city-card .city-name{font-family:'Fredoka',sans-serif;font-weight:600;font-size:19px;color:var(--ink);margin-bottom:4px;}
+  .city-card .city-tag{font-size:12.5px;font-weight:700;color:var(--orange-deep);text-transform:uppercase;letter-spacing:0.5px;}
+
+  /* ---- rules checklist ---- */
+  .rules{list-style:none;margin-top:18px;display:grid;gap:10px;}
+  .rules li{
+    display:flex;gap:10px;background:var(--bg-alt);border:1px solid var(--line);
+    border-radius:14px;padding:13px 15px;font-size:14.5px;color:var(--ink);
+  }
+  .rules li b{color:var(--orange);flex-shrink:0;}
+  .hashtag-box{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px;}
+  .hashtag{
+    background:var(--orange);color:#fff;font-weight:800;font-size:14px;
+    padding:9px 16px;border-radius:999px;
+  }
+  .hashtag.optional{background:#fff;border:1.5px dashed var(--line);color:var(--text-muted);}
+  .warn{
+    margin-top:16px;background:var(--orange-soft);border:1px solid #FFD2B0;
+    color:var(--orange-deep);padding:14px 16px;border-radius:12px;font-size:14px;font-weight:600;
+  }
+
+  /* ---- podium prize cards ---- */
+  .podium-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px;}
+  .podium-card{
+    background:var(--orange-soft-2);border:1px solid var(--line);border-radius:16px;
+    padding:16px 10px;text-align:center;
+  }
+  .podium-card .medal{font-size:26px;margin-bottom:6px;}
+  .podium-card .place{font-size:11.5px;font-weight:700;color:var(--orange-deep);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}
+  .podium-card .prize{font-family:'Fredoka',sans-serif;font-weight:600;font-size:16px;color:var(--ink);}
+
+  /* ---- criteria (peso %) cards, inspired by DiDi Gurú ---- */
+  .criteria-grid{display:grid;gap:12px;margin-top:14px;}
+  @media(min-width:620px){.criteria-grid{grid-template-columns:repeat(3,1fr);}}
+  .criteria-card{
+    background:var(--orange-soft-2);border:1px solid var(--line);border-radius:16px;padding:18px;
+  }
+  .criteria-pct{
+    font-family:'Fredoka',sans-serif;font-weight:700;font-size:26px;color:var(--orange);
+  }
+  .criteria-pct-label{font-size:11px;color:var(--text-muted);font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px;}
+  .criteria-card h3{font-size:15px;font-family:'Fredoka',sans-serif;font-weight:600;color:var(--ink);margin:6px 0 4px;}
+  .criteria-card p{font-size:13.5px;color:var(--text-muted);}
+
+  /* ---- formula steps ---- */
+  .formula{display:grid;gap:14px;margin-top:22px;}
+  .fstep{
+    background:var(--bg-alt);border:1px solid var(--line);border-radius:18px;
+    padding:20px 22px;display:flex;gap:16px;
+  }
+  .fstep .fnum{
+    flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--orange);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:'Fredoka',sans-serif;font-weight:600;font-size:17px;
+  }
+  .fstep h3{font-size:16.5px;font-family:'Fredoka',sans-serif;font-weight:600;color:var(--ink);margin-bottom:8px;}
+  .fstep ul{list-style:none;display:grid;gap:6px;}
+  .fstep ul li{font-size:14.5px;color:var(--text-muted);padding-left:16px;position:relative;}
+  .fstep ul li::before{content:"—";position:absolute;left:0;color:var(--orange);}
+  .fstep p{font-size:14.5px;color:var(--text-muted);}
+  .pro-tip{
+    margin-top:6px;font-size:13px;color:var(--orange-deep);background:var(--orange-soft);
+    display:inline-block;padding:6px 12px;border-radius:8px;font-weight:600;
+  }
+
+  /* ---- scooter banner ---- */
+  .banner{
+    background:var(--orange-soft-2);border-radius:22px;margin-top:26px;
+    display:flex;align-items:center;gap:20px;padding:18px 22px;flex-wrap:wrap;
+  }
+  .banner img{width:150px;flex-shrink:0;margin:0 auto;}
+  .banner p{color:var(--ink);font-size:15px;font-weight:600;max-width:340px;}
+
+  /* ---- gallery ---- */
+  .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px;}
+  @media(min-width:560px){.gallery{grid-template-columns:repeat(3,1fr);}}
+  .gallery img{aspect-ratio:4/5;object-fit:cover;width:100%;border-radius:14px;}
+
+  /* ---- testimonials ---- */
+  .testi-grid{display:grid;gap:14px;margin-top:18px;}
+  @media(min-width:620px){.testi-grid{grid-template-columns:1fr 1fr;}}
+  .testi{background:var(--bg-alt);border:1px solid var(--line);border-radius:18px;padding:20px;}
+  .testi p{color:var(--ink);font-size:15px;font-style:italic;}
+  .testi .who{display:flex;align-items:center;gap:10px;margin-top:14px;}
+  .testi .avatar{width:36px;height:36px;border-radius:50%;background:var(--orange);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;}
+  .testi .name{font-weight:700;font-size:14px;}
+  .testi .city{font-size:12px;color:var(--text-muted);}
+  .testi-note{font-size:12px;color:var(--text-muted);margin-top:12px;}
+
+  /* ---- form ---- */
+  form{margin-top:20px;display:grid;gap:14px;}
+  label{font-size:13px;font-weight:700;color:var(--orange-deep);margin-bottom:6px;display:block;}
+  input,select{
+    width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);
+    background:var(--bg-alt);color:var(--ink);font-size:15px;font-family:'DM Sans',sans-serif;
+  }
+  input:focus,select:focus{outline:none;border-color:var(--orange);}
+  .form-row{display:grid;gap:14px;}
+  @media(min-width:560px){.form-row.two{grid-template-columns:1fr 1fr;}}
+  .btn-submit{
+    background:var(--orange);color:#fff;border:none;border-radius:999px;
+    padding:15px 26px;font-weight:800;font-size:15.5px;cursor:pointer;width:100%;
+  }
+  .btn-submit:hover{background:var(--orange-deep);}
+  .form-status{font-size:14px;margin-top:6px;padding:10px 14px;border-radius:10px;display:none;}
+  .form-status.show{display:block;}
+  .form-status.success{background:var(--ok-bg);color:var(--ok-text);}
+  .form-note{font-size:12.5px;color:var(--text-muted);margin-top:10px;}
+
+  footer{
+    border-top:1px solid var(--line);margin-top:40px;padding:36px 0 50px;
+    text-align:center;color:var(--text-muted);font-size:13px;
+  }
+  footer a{color:var(--orange-deep);text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <img class="logo-img" src="images/logo-repartidor.png" alt="DiDi Repartidor">
+    <a class="cta-mini" href="#formulario">Participar</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">📣 Concurso para Repartidores DiDi · 10 ago – 10 sep</div>
+        <span class="hero-hashtag">#MiDiaConDiDi</span>
+        <div class="hero-sub">Cuéntanos tu día repartiendo.</div>
+        <p>Muestra cómo es tu rutina repartiendo con DiDi y súbela a TikTok o Reels con los hashtags oficiales.</p>
+        <div class="hero-urgency">🔥 Los primeros 20 en subir su video ganan seguro</div>
+        <div class="prize-badges">
+          <span class="prize-badge">🏍️ 1er lugar: Moto</span>
+          <span class="prize-badge">📱 2do y 3er lugar: Celular</span>
+          <span class="prize-badge">⚡ Primeros 20: premio seguro</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#formulario">¡Quiero participar!</a>
+          <a class="btn btn-ghost" href="#como-grabar">Ver cómo grabar mi video</a>
+        </div>
+      </div>
+      <div class="hero-img-wrap">
+        <img src="images/hero-repartidores.png" alt="Repartidores de DiDi caminando con sus pedidos">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="route">
+
+    <!-- PARADA 1 -->
+    <div class="stop" id="que-es">
+      <div class="pin">🎁</div>
+      <div class="stop-label">Parada 1</div>
+      <h2>De qué se trata</h2>
+      <p>Grabas un video corto mostrando tu día como repartidor: cómo te alistas, tus pedidos, tus momentos favoritos o un consejo para otros repartidores. Lo subes a TikTok o Instagram Reels con los hashtags oficiales y quedas dentro del concurso.</p>
+
+      <div class="prize-grid">
+        <div class="prize-card">
+          <span class="tag">Premio rapidez</span>
+          <h3>Primeros 20 en participar</h3>
+          <p>Ganan automáticamente las primeras 20 personas que suban su video cumpliendo todas las reglas. Cuenta la hora exacta de publicación en la plataforma.</p>
+        </div>
+      </div>
+
+      <p style="margin-top:22px;"><strong>Premios top 1, 2 y 3</strong></p>
+      <div class="podium-grid">
+        <div class="podium-card">
+          <div class="medal">🥇</div>
+          <div class="place">1er lugar</div>
+          <div class="prize">Moto</div>
+        </div>
+        <div class="podium-card">
+          <div class="medal">🥈</div>
+          <div class="place">2do lugar</div>
+          <div class="prize">Celular</div>
+        </div>
+        <div class="podium-card">
+          <div class="medal">🥉</div>
+          <div class="place">3er lugar</div>
+          <div class="prize">Celular</div>
+        </div>
+      </div>
+      <p style="margin-top:14px;color:var(--text-muted);font-size:14.5px;">De los 10 videos con más interacción (likes, comentarios), un jurado elige a los 3 ganadores. Tu video debe ser <strong>original y creativo</strong> — queremos conocerte y saber cómo es tu día a día repartiendo.</p>
+    </div>
+
+    <!-- PARADA 2 -->
+    <div class="stop" id="ciudades">
+      <div class="pin">📍</div>
+      <div class="stop-label">Parada 2</div>
+      <h2>Ciudades del concurso</h2>
+      <p>El concurso corre del 10 de agosto al 10 de septiembre de 2026, solo en estas ciudades:</p>
+      <div class="city-card-grid">
+        <div class="city-card">
+          <div class="city-icon">🐆</div>
+          <div class="city-name">Mérida</div>
+          <div class="city-tag">Ciudad participante</div>
+        </div>
+        <div class="city-card">
+          <div class="city-icon">🌵</div>
+          <div class="city-name">Aguascalientes</div>
+          <div class="city-tag">Ciudad participante</div>
+        </div>
+      </div>
+      <div class="req-box">
+        <strong>Para participar necesitas:</strong> ser repartidor activo en DiDi Repartidor en Mérida o Aguascalientes, haber hecho al menos 5 pedidos en el último mes, y ser mayor de 18 años.
+      </div>
+    </div>
+
+    <!-- PARADA 3 -->
+    <div class="stop" id="como-grabar">
+      <div class="pin">🎬</div>
+      <div class="stop-label">Parada 3</div>
+      <h2>Cómo grabar tu video 🎥</h2>
+      <p>¿Nunca has grabado un video para TikTok o Reels? Tranqui, no tienes que ser influencer — solo tienes que ser tú. Aquí va la fórmula fácil, en 4 pasitos.</p>
+
+      <div class="formula">
+        <div class="fstep">
+          <div class="fnum">1</div>
+          <div>
+            <h3>✨ Elige tu idea (15 a 60 segundos)</h3>
+            <ul>
+              <li>El "Acompáñame a...": tu rutina desde que te alistas hasta tu última entrega.</li>
+              <li>Tours y anécdotas: el mejor paisaje del día, la comida que te dio hambre o el cliente más simpático.</li>
+              <li>Tu nave: muestra tu moto o bici, cómo organizas tu equipo y tus hacks para el calor o el tráfico.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">2</div>
+          <div>
+            <h3>🎬 Graba solo 4 o 5 tomitas</h3>
+            <ul>
+              <li>La salida: tú poniéndote el casco o ajustando la mochila.</li>
+              <li>En ruta: una toma manejando con el celular fijo en el soporte, o la vista de la ciudad.</li>
+              <li>Punto A/B: llegando por el pedido al restaurante o entregando el paquete.</li>
+              <li>El cierre: un descanso, un agua o despidiendo el video con buena vibra.</li>
+            </ul>
+            <span class="pro-tip">💡 Tip pro: limpia la lente de tu celular con la playera antes de empezar.</span>
+          </div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">3</div>
+          <div>
+            <h3>✂️ Edita en la app, sin complicarte</h3>
+            <ul>
+              <li>Junta tus clips en TikTok o Instagram Reels.</li>
+              <li>Ponle una canción en tendencia con ritmo alto, o graba tu voz encima contando lo que pasó en tu día.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">4</div>
+          <div>
+            <h3>🚀 Listo, ¡a publicar!</h3>
+            <ul>
+              <li>Asegúrate de que tu cuenta sea pública.</li>
+              <li>Protege a los clientes: no muestres tickets con nombres completos ni direcciones exactas.</li>
+              <li>Usa los hashtags obligatorios en el caption.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top:24px;"><strong>Hashtags obligatorios en tu caption:</strong></p>
+      <div class="hashtag-box">
+        <span class="hashtag">#MiDiaConDiDi</span>
+        <span class="hashtag">#DiDiMerida</span>
+        <span class="hashtag">#DiDiAguascalientes</span>
+      </div>
+      <div class="hashtag-box">
+        <span class="hashtag optional">#CosasDeRepartir</span>
+        <span class="hashtag optional">#DiDi</span>
+        <span class="hashtag optional">#Repartidores</span>
+      </div>
+      <div class="warn">Usa <strong>#MiDiaConDiDi</strong> + el hashtag de tu ciudad. Sin estos dos, tu video no puede entrar al concurso.</div>
+
+      <div class="banner">
+        <img src="images/scooter-duo.png" alt="Repartidores de DiDi en su scooter">
+        <p>Tip: los mejores videos se sienten reales, no actuados. Muestra tu día tal como es.</p>
+      </div>
+    </div>
+
+    <!-- PARADA 4 -->
+    <div class="stop" id="galeria">
+      <div class="pin">📸</div>
+      <div class="stop-label">Parada 4</div>
+      <h2>Así se ve un día de repartidor</h2>
+      <p>Inspírate con estos momentos antes de grabar el tuyo.</p>
+      <div class="gallery">
+        <img src="images/galeria-1.png" alt="Repartidor de DiDi en su scooter">
+        <img src="images/galeria-2.png" alt="Repartidor caminando con su pedido">
+        <img src="images/galeria-3.png" alt="Repartidor saludando en su entrega">
+        <img src="images/galeria-4.png" alt="Repartidora de DiDi en su scooter">
+        <img src="images/galeria-5.png" alt="Repartidor con su mochila DiDi Food">
+        <img src="images/galeria-6.png" alt="Repartidor revisando su pedido en la app">
+      </div>
+    </div>
+
+    <!-- PARADA 5 -->
+    <div class="stop" id="testimonios">
+      <div class="pin">💬</div>
+      <div class="stop-label">Parada 5</div>
+      <h2>Lo que dicen los repartidores</h2>
+      <div class="testi-grid">
+        <div class="testi">
+          <p>"Grabé mientras me preparaba para salir y conté por qué me gusta este trabajo. Tardé 20 minutos en hacerlo."</p>
+          <div class="who">
+            <div class="avatar">C</div>
+            <div>
+              <div class="name">Repartidor participante</div>
+              <div class="city">Mérida</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi">
+          <p>"Lo más fácil fue elegir el momento del día que más me gusta: cuando entrego el último pedido y regreso a casa."</p>
+          <div class="who">
+            <div class="avatar">C</div>
+            <div>
+              <div class="name">Repartidor participante</div>
+              <div class="city">Aguascalientes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="testi-note">Ejemplos ilustrativos — reemplaza por testimonios reales de repartidores que ya participaron.</p>
+    </div>
+
+    <!-- PARADA 6: FORMULARIO -->
+    <div class="stop" id="formulario">
+      <div class="pin">🏁</div>
+      <div class="stop-label">Última parada</div>
+      <h2>Regístrate para el concurso</h2>
+      <p>Déjanos tus datos para avisarte si ganas. Esto no reemplaza el paso más importante: subir tu video con los hashtags oficiales.</p>
+
+      <form id="contest-form">
+        <div>
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+        </div>
+        <div class="form-row two">
+          <div>
+            <label for="numero">Número celular</label>
+            <input type="tel" id="numero" name="numero" placeholder="55 1234 5678" required>
+          </div>
+          <div>
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" name="correo" placeholder="tu@correo.com" required>
+          </div>
+        </div>
+        <div class="form-row two">
+          <div>
+            <label for="username">Usuario TikTok o Instagram</label>
+            <input type="text" id="username" name="username" placeholder="@tuusuario" required>
+          </div>
+          <div>
+            <label for="ciudad">Ciudad</label>
+            <select id="ciudad" name="ciudad" required>
+              <option value="" disabled selected>Elige tu ciudad</option>
+              <option value="Merida">Mérida</option>
+              <option value="Aguascalientes">Aguascalientes</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">Enviar registro</button>
+        <div id="form-status" class="form-status"></div>
+      </form>
+      <p class="form-note">Nota técnica: este formulario aún no está conectado a ningún destino real (Google Sheet, CRM, etc.). Ahora mismo solo confirma los datos en pantalla — hay que conectarlo antes de lanzar la campaña.</p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>Concurso "Un día siendo Repartidor" · DiDi Repartidor · 10 de agosto – 10 de septiembre de 2026</p>
+  <p><a href="#">Consulta los términos y condiciones completos</a></p>
+</footer>
+
+<script>
+  document.getElementById('contest-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    const status = document.getElementById('form-status');
+    status.textContent = '¡Listo! Ya quedaste registrado. No olvides subir tu video con #MiDiaConDiDi y el hashtag de tu ciudad.';
+    status.classList.add('show', 'success');
+    e.target.reset();
+  });
+</script>
+
+</body>
+</html>
