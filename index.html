@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Un día siendo Repartidor · Concurso DiDi</title>
 <meta name="description" content="Cuenta tu día real repartiendo con DiDi y gánate una moto o un celular. Mérida y Aguascalientes, del 10 de agosto al 10 de septiembre.">
-<link rel="icon" href="images/icon-didi.png">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH0AAABwCAYAAAAzHn/7AAAC10lEQVR4nO3d3U7jMBCG4UnK7cHF9vqowgGysKqm5MeeGed7nzN2Jbb2m0nTtCzTsixWPL5uf18gzO3+mHp+/w8zYquZox8A/M1MuR4mXRDRBRFdENEFEV0Q0QURXRDRBRFdENEFEV0Q0QURXRDRBRFdENEFEV0Q0QVN358zH5cS8+Hxj/T+SO+VeHxmsfvpneD58JwuiOiCiC6I6IKILojogoguiOiCiC6I6IKILojogoguiOiCiC6I6IKILojogoguqHt0/nPCfJh0QUQXRHRBRE/E4/rndn9MLtG5mMtl5idQ9HB6T8LzbOgWnVN8Hky6IKIn4HUWLNdvc/1Fb5zic2DSg0UMgnt0pj1eyKQT/pfnPtRP4fOrP8S1hT2nq0975Pq5kAvgHfz5LD6/+8ve1Kc9Svikq4WPnnKzF9EjLuhUwmdZZ/ikF1k2pJdM63sZPerlW6aNaSlqXWsd00x6cbXwGdezGj3yZk3GjToich3v+qWb9GL08FmDm/0TPfrW7IjhH1+3JfvjTjvpxQibWGR4nFsG9d/o0dNeZNjQNSMdmGZm07Jse6yZFpXlQDQbc19cfp1Ha2WjeYXxZ89ebJ50s3wLrXkcAFdZ/67oZrkXXrQ8AK643t3RzcbYiNqeTbny2oohn9P3Gi3kVkfPaIdep2e6elZ1psHhmzOEj3N270/dkSO8vxZ7fvo2LOH9tNrrJvfeCd9fyz1u9oYL4ftpvbdN32UjfHs99vTQzZktrvra2FOvIer2fjpTf07P/es26QUTv4/HsHT/5AwTv53XXnWf9BpTv85zOFyjmxH+WcSZ0D16oR4/8mkvLHqhGD/6Oic8eqEQPzp2kSZ6cbX4WULX0kUvRo+fMXaRNnptlAMgc+jaENFr2Q6AUULXhov+LOIgGDF0bfjor7Q6EEaPu+aS0fFe+h9VRntEF0R0QUQXRHRBRBdEdEFEF0R0QUQX9AM9PD7cpVxCLgAAAABJRU5ErkJggg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -22,6 +23,11 @@
     --line:#F2E2D6;
     --ok-bg:#E9F9F1;
     --ok-text:#1F8F5C;
+    --skin:#F0B589;
+    --cap-brim:#1B1512;
+    --pants:#3A322C;
+    --bag-light:#FF8A47;
+    --blush:#FF9B72;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
@@ -50,7 +56,7 @@
     border-bottom:1px solid var(--line);
   }
   .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;max-width:880px;margin:0 auto;}
-  .nav img.logo-img{height:30px;width:auto;}
+  .nav img.logo-img{height:28px;width:auto;}
   .nav a.cta-mini{
     background:var(--orange);color:#fff;font-weight:700;font-size:13.5px;
     padding:10px 18px;border-radius:999px;text-decoration:none;
@@ -94,6 +100,10 @@
     display:flex;align-items:center;justify-content:center;
   }
   .hero-img-wrap img{max-height:260px;}
+  .phone-mock{width:100%;max-width:220px;height:auto;filter:drop-shadow(0 12px 24px rgba(255,95,20,0.18));animation:float-phone 3.5s ease-in-out infinite;}
+  @keyframes float-phone{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+  .play-btn{animation:pulse-play 1.8s ease-in-out infinite;transform-origin:center;}
+  @keyframes pulse-play{0%,100%{opacity:1;}50%{opacity:0.55;}}
 
   /* ---- route / "paradas" spine ---- */
   .route{position:relative;padding:34px 0 10px;}
@@ -217,13 +227,48 @@
     background:var(--orange-soft-2);border-radius:22px;margin-top:26px;
     display:flex;align-items:center;gap:20px;padding:18px 22px;flex-wrap:wrap;
   }
-  .banner img{width:150px;flex-shrink:0;margin:0 auto;}
+  .banner img, .banner svg.rec-illustration{width:150px;flex-shrink:0;margin:0 auto;animation:wiggle-rec 2.6s ease-in-out infinite;transform-origin:70% 90%;}
+  .rec-mock{width:110px;flex-shrink:0;margin:0 auto;animation:wiggle-rec 2.6s ease-in-out infinite;transform-origin:70% 90%;}
+  .rec-dot{animation:pulse-rec 1.4s ease-in-out infinite;}
+  @keyframes pulse-rec{0%,100%{opacity:1;}50%{opacity:0.25;}}
+  @keyframes wiggle-rec{0%,100%{transform:rotate(-2deg);}50%{transform:rotate(2deg);}}
   .banner p{color:var(--ink);font-size:15px;font-weight:600;max-width:340px;}
 
   /* ---- gallery ---- */
   .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px;}
   @media(min-width:560px){.gallery{grid-template-columns:repeat(3,1fr);}}
-  .gallery img{aspect-ratio:4/5;object-fit:cover;width:100%;border-radius:14px;}
+  .gallery-card{position:relative;aspect-ratio:4/5;width:100%;border-radius:14px;overflow:hidden;background:var(--orange-soft-2);display:block;}
+  .gallery-card img, .gallery-card .card-illustration{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+  .anim-sway{animation:sway 3s ease-in-out infinite;transform-origin:50% 90%;}
+  @keyframes sway{0%,100%{transform:rotate(-1.2deg) translateY(0);}50%{transform:rotate(1.2deg) translateY(-3px);}}
+  .anim-ride{animation:ride-bump 0.5s ease-in-out infinite;}
+  @keyframes ride-bump{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+  .anim-hold-sway{animation:hold-sway 2.6s ease-in-out infinite;transform-origin:50% 100%;}
+  @keyframes hold-sway{0%,100%{transform:rotate(-1.5deg);}50%{transform:rotate(1.5deg);}}
+  .anim-wave-bounce{animation:wave-bounce 1.6s ease-in-out infinite;transform-origin:50% 100%;}
+  @keyframes wave-bounce{0%,100%{transform:translateY(0) rotate(0deg);}30%{transform:translateY(-5px) rotate(-2deg);}60%{transform:translateY(0) rotate(2deg);}}
+  .anim-breathe{animation:breathe 3.4s ease-in-out infinite;transform-origin:50% 100%;}
+  @keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
+  .anim-walk{animation:walk-bounce 0.9s ease-in-out infinite;}
+  @keyframes walk-bounce{0%,50%,100%{transform:translateY(0);}25%{transform:translateY(-5px);}75%{transform:translateY(-2px);}}
+  .gallery-card .card-caption{position:absolute;left:0;right:0;bottom:0;height:45px;background:linear-gradient(0deg, rgba(26,19,16,0.75), rgba(26,19,16,0));display:flex;align-items:flex-start;justify-content:center;padding-top:8px;}
+  .gallery-card .card-caption span{font-family:'Fredoka', sans-serif;font-size:14px;font-weight:600;color:#fff;}
+  .gallery-card .mini-play{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;background:rgba(26,19,16,0.55);display:flex;align-items:center;justify-content:center;}
+  .gallery-card .mini-play::after{content:"";border-style:solid;border-width:5px 0 5px 8px;border-color:transparent transparent transparent #fff;margin-left:2px;}
+  .gallery-card .progress-track{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(26,19,16,0.3);}
+  .gallery-card .progress-fill{position:absolute;left:0;bottom:0;height:3px;background:#fff;width:0;animation:fill-progress 4.5s linear infinite;}
+  @keyframes fill-progress{0%{width:0%;}90%{width:100%;}100%{width:100%;}}
+  .gallery-card:nth-child(2) .progress-fill{animation-delay:0.6s;}
+  .gallery-card:nth-child(3) .progress-fill{animation-delay:1.2s;}
+  .gallery-card:nth-child(4) .progress-fill{animation-delay:1.8s;}
+  .gallery-card:nth-child(5) .progress-fill{animation-delay:2.4s;}
+  .gallery-card:nth-child(6) .progress-fill{animation-delay:3.0s;}
+  .gallery-card:nth-child(2) .mini-play{animation-delay:0.3s;}
+  .gallery-card:nth-child(3) .mini-play{animation-delay:0.6s;}
+  .gallery-card:nth-child(4) .mini-play{animation-delay:0.9s;}
+  .gallery-card:nth-child(5) .mini-play{animation-delay:1.2s;}
+  .gallery-card:nth-child(6) .mini-play{animation-delay:1.5s;}
+  .gallery-card .mini-play{animation:pulse-play 1.8s ease-in-out infinite;}
 
   /* ---- testimonials ---- */
   .testi-grid{display:grid;gap:14px;margin-top:18px;}
@@ -256,6 +301,9 @@
   .form-status.show{display:block;}
   .form-status.success{background:var(--ok-bg);color:var(--ok-text);}
   .form-note{font-size:12.5px;color:var(--text-muted);margin-top:10px;}
+  .form-note code{background:var(--orange-soft);color:var(--orange-deep);padding:2px 6px;border-radius:5px;font-size:12px;}
+  .social-hint{font-size:13px;color:var(--text-muted);margin-top:-4px;}
+  .form-status.error{background:var(--orange-soft);color:var(--orange-deep);}
 
   footer{
     border-top:1px solid var(--line);margin-top:40px;padding:36px 0 50px;
@@ -268,7 +316,7 @@
 
 <header>
   <div class="nav">
-    <img class="logo-img" src="images/logo-repartidor.png" alt="DiDi Repartidor">
+<img class="logo-img" src="data:image/png;base64,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" alt="DiDi Repartidor">
     <a class="cta-mini" href="#formulario">Participar</a>
   </div>
 </header>
@@ -281,11 +329,11 @@
         <span class="hero-hashtag">#MiDiaConDiDi</span>
         <div class="hero-sub">Cuéntanos tu día repartiendo.</div>
         <p>Muestra cómo es tu rutina repartiendo con DiDi y súbela a TikTok o Reels con los hashtags oficiales.</p>
-        <div class="hero-urgency">🔥 Los primeros 20 en subir su video ganan seguro</div>
+        <div class="hero-urgency">🔥 Los primeros 10 en subir su video ganan seguro</div>
         <div class="prize-badges">
           <span class="prize-badge">🏍️ 1er lugar: Moto</span>
           <span class="prize-badge">📱 2do y 3er lugar: Celular</span>
-          <span class="prize-badge">⚡ Primeros 20: premio seguro</span>
+          <span class="prize-badge">⚡ Primeros 10: premio seguro</span>
         </div>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#formulario">¡Quiero participar!</a>
@@ -293,7 +341,79 @@
         </div>
       </div>
       <div class="hero-img-wrap">
-        <img src="images/hero-repartidores.png" alt="Repartidores de DiDi caminando con sus pedidos">
+        <svg class="phone-mock" viewBox="0 0 300 600" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="screenGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FF7A2E"/>
+              <stop offset="100%" stop-color="#E14E00"/>
+            </linearGradient>
+            <linearGradient id="bottomFade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1A1310" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#1A1310" stop-opacity="0.85"/>
+            </linearGradient>
+            <clipPath id="screenClip">
+              <rect x="14" y="14" width="272" height="572" rx="28"/>
+            </clipPath>
+          </defs>
+          <rect x="6" y="6" width="288" height="588" rx="36" fill="#241F1B"/>
+          <rect x="14" y="14" width="272" height="572" rx="28" fill="url(#screenGrad)"/>
+          <g opacity="0.16">
+            <circle cx="150" cy="220" r="90" fill="#fff"/>
+            <circle cx="230" cy="420" r="60" fill="#fff"/>
+          </g>
+          <g class="anim-wave-bounce" clip-path="url(#screenClip)">
+            <!-- Muñeco repartidor saludando -->
+            <ellipse cx="150" cy="462" rx="58" ry="12" fill="#1A1310" opacity="0.15"/>
+            <rect x="128" y="380" width="20" height="90" rx="10" fill="var(--pants)"/>
+            <rect x="152" y="380" width="20" height="90" rx="10" fill="var(--pants)"/>
+            <ellipse cx="138" cy="468" rx="16" ry="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/>
+            <ellipse cx="162" cy="468" rx="16" ry="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/>
+            <rect x="112" y="270" width="16" height="110" rx="8" fill="var(--ink)" opacity="0.9" transform="rotate(-8,120,270)"/>
+            <rect x="172" y="270" width="16" height="110" rx="8" fill="var(--ink)" opacity="0.9" transform="rotate(8,180,270)"/>
+            <rect x="105" y="270" width="90" height="130" rx="36" fill="var(--orange)"/>
+            <line x1="150" y1="280" x2="150" y2="385" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M128,278 L150,300 L120,292 Z" fill="var(--ink)"/>
+            <path d="M172,278 L150,300 L180,292 Z" fill="var(--ink)"/>
+            <rect x="112" y="330" width="76" height="12" rx="6" fill="#FFF3EA" opacity="0.85"/>
+            <g transform="rotate(18,120,285)">
+              <rect x="108" y="285" width="24" height="95" rx="12" fill="var(--orange)"/>
+              <circle cx="120" cy="385" r="14" fill="var(--skin)"/>
+            </g>
+            <g transform="rotate(-155,180,285)">
+              <rect x="168" y="285" width="24" height="95" rx="12" fill="var(--orange)"/>
+              <circle cx="180" cy="385" r="14" fill="var(--skin)"/>
+            </g>
+            <rect x="138" y="250" width="24" height="28" fill="var(--skin)"/>
+            <circle cx="150" cy="225" r="48" fill="var(--skin)"/>
+            <ellipse cx="150" cy="195" rx="54" ry="32" fill="var(--ink)"/>
+            <ellipse cx="150" cy="222" rx="38" ry="10" fill="var(--cap-brim)"/>
+            <circle cx="132" cy="232" r="4.5" fill="var(--ink)"/>
+            <circle cx="168" cy="232" r="4.5" fill="var(--ink)"/>
+            <path d="M130,248 Q150,262 170,248" stroke="var(--ink)" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <ellipse cx="118" cy="242" rx="10" ry="6" fill="var(--blush)" opacity="0.5"/>
+            <ellipse cx="182" cy="242" rx="10" ry="6" fill="var(--blush)" opacity="0.5"/>
+          </g>
+          <rect x="110" y="24" width="80" height="18" rx="9" fill="#241F1B" opacity="0.35"/>
+          <g class="play-btn">
+            <circle cx="150" cy="300" r="42" fill="#fff" opacity="0.9"/>
+            <path d="M137 280 L172 300 L137 320 Z" fill="var(--orange-deep)"/>
+          </g>
+          <rect x="222" y="46" width="46" height="24" rx="12" fill="#1A1310" opacity="0.55"/>
+          <text x="245" y="62" font-family="DM Sans, sans-serif" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">0:24</text>
+          <rect x="14" y="470" width="272" height="116" rx="0" fill="url(#bottomFade)"/>
+          <text x="34" y="518" font-family="Fredoka, sans-serif" font-size="17" font-weight="600" fill="#fff">@tu_usuario</text>
+          <text x="34" y="542" font-family="DM Sans, sans-serif" font-size="13" fill="#F3E7DC">Un día siendo repartidor 🛵</text>
+          <rect x="34" y="552" width="128" height="22" rx="11" fill="var(--orange)"/>
+          <text x="98" y="567" font-family="DM Sans, sans-serif" font-size="11.5" font-weight="700" fill="#fff" text-anchor="middle">#MiDiaConDiDi</text>
+          <g class="play-btn" fill="#fff" font-family="DM Sans, sans-serif" font-size="11" font-weight="700" text-anchor="middle">
+            <circle cx="256" cy="470" r="20" fill="#1A1310" opacity="0.4"/>
+            <path d="M256 462 c-4-6-14-4-14 3 c0 6 8 11 14 16 c6-5 14-10 14-16 c0-7-10-9-14-3 Z" fill="#fff"/>
+          </g>
+          <rect x="14" y="588" width="272" height="4" fill="#1A1310" opacity="0.25"/>
+          <rect x="14" y="588" width="20" height="4" fill="#fff">
+            <animate attributeName="width" values="0;272;272" keyTimes="0;0.97;1" dur="5s" repeatCount="indefinite"/>
+          </rect>
+        </svg>
       </div>
     </div>
   </div>
@@ -312,8 +432,8 @@
       <div class="prize-grid">
         <div class="prize-card">
           <span class="tag">Premio rapidez</span>
-          <h3>Primeros 20 en participar</h3>
-          <p>Ganan automáticamente las primeras 20 personas que suban su video cumpliendo todas las reglas. Cuenta la hora exacta de publicación en la plataforma.</p>
+          <h3>Primeros 10 en participar</h3>
+          <p>Ganan automáticamente las primeras 10 personas que suban su video cumpliendo todas las reglas. Cuenta la hora exacta de publicación en la plataforma.</p>
         </div>
       </div>
 
@@ -366,52 +486,29 @@
       <div class="pin">🎬</div>
       <div class="stop-label">Parada 3</div>
       <h2>Cómo grabar tu video 🎥</h2>
-      <p>¿Nunca has grabado un video para TikTok o Reels? Tranqui, no tienes que ser influencer — solo tienes que ser tú. Aquí va la fórmula fácil, en 4 pasitos.</p>
+      <p>Fórmula fácil en 3 pasos: no necesitas ser influencer, ni tener equipo caro, ni saber editar como profesional — solo tener la mejor actitud y ganas de mostrar cómo es tu día. Aquí te explicamos paso a paso para que te quede increíble.</p>
 
       <div class="formula">
         <div class="fstep">
           <div class="fnum">1</div>
           <div>
-            <h3>✨ Elige tu idea (15 a 60 segundos)</h3>
-            <ul>
-              <li>El "Acompáñame a...": tu rutina desde que te alistas hasta tu última entrega.</li>
-              <li>Tours y anécdotas: el mejor paisaje del día, la comida que te dio hambre o el cliente más simpático.</li>
-              <li>Tu nave: muestra tu moto o bici, cómo organizas tu equipo y tus hacks para el calor o el tráfico.</li>
-            </ul>
+            <h3>✨ Elige tu idea</h3>
+            <p>No hace falta un guion complicado ni una idea genial: puedes contar tu rutina del día tal como la vives, compartir una anécdota simpática que te haya pasado repartiendo, o simplemente presumir tu moto o tu bici y esos trucos que ya se te dan solo para aguantar el calor o esquivar el tráfico de tu ciudad. Lo importante es que se sienta real y tuyo — y que dure entre 15 y 60 segundos, ni más ni menos.</p>
           </div>
         </div>
         <div class="fstep">
           <div class="fnum">2</div>
           <div>
-            <h3>🎬 Graba solo 4 o 5 tomitas</h3>
-            <ul>
-              <li>La salida: tú poniéndote el casco o ajustando la mochila.</li>
-              <li>En ruta: una toma manejando con el celular fijo en el soporte, o la vista de la ciudad.</li>
-              <li>Punto A/B: llegando por el pedido al restaurante o entregando el paquete.</li>
-              <li>El cierre: un descanso, un agua o despidiendo el video con buena vibra.</li>
-            </ul>
+            <h3>🎬 Graba 4 o 5 tomas cortas</h3>
+            <p>No necesitas una sola toma perfecta de principio a fin — es más fácil (y se ve mejor) si grabas varios clips cortos a lo largo de tu turno: la salida de tu casa alistando todo, un momento en ruta, la recogida del pedido en el restaurante, la entrega en la puerta del cliente, y el cierre del día con tu mejor sonrisa y buena vibra. Así después armas el video como más te guste.</p>
             <span class="pro-tip">💡 Tip pro: limpia la lente de tu celular con la playera antes de empezar.</span>
           </div>
         </div>
         <div class="fstep">
           <div class="fnum">3</div>
           <div>
-            <h3>✂️ Edita en la app, sin complicarte</h3>
-            <ul>
-              <li>Junta tus clips en TikTok o Instagram Reels.</li>
-              <li>Ponle una canción en tendencia con ritmo alto, o graba tu voz encima contando lo que pasó en tu día.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="fstep">
-          <div class="fnum">4</div>
-          <div>
-            <h3>🚀 Listo, ¡a publicar!</h3>
-            <ul>
-              <li>Asegúrate de que tu cuenta sea pública.</li>
-              <li>Protege a los clientes: no muestres tickets con nombres completos ni direcciones exactas.</li>
-              <li>Usa los hashtags obligatorios en el caption.</li>
-            </ul>
+            <h3>🚀 Edita y publica</h3>
+            <p>Cuando ya tengas tus clips, júntalos en el orden que más te guste desde tu celular, ponle la música que va con tu vibra o simplemente cuenta con tu propia voz cómo estuvo tu día. Después sube el video a una cuenta pública de TikTok o Instagram Reels — recuerda no compartir datos de clientes ni de otros repartidores — y no olvides agregar los hashtags obligatorios, porque sin ellos tu video no cuenta para el concurso.</p>
           </div>
         </div>
       </div>
@@ -430,7 +527,36 @@
       <div class="warn">Usa <strong>#MiDiaConDiDi</strong> + el hashtag de tu ciudad. Sin estos dos, tu video no puede entrar al concurso.</div>
 
       <div class="banner">
-        <img src="images/scooter-duo.png" alt="Repartidores de DiDi en su scooter">
+        <svg class="anim-wave-bounce rec-illustration" viewBox="0 0 220 240" role="img" aria-label="Repartidor de DiDi saludando, listo para grabar su video">
+          <title>Repartidor de DiDi saludando, listo para grabar su video</title>
+          <ellipse cx="110" cy="232" rx="32" ry="6" fill="var(--ink)" opacity="0.08"/>
+          <g transform="rotate(-6,102,175)"><rect x="95" y="175" width="15" height="55" rx="7" fill="var(--pants)"/><ellipse cx="102" cy="228" rx="11" ry="6" fill="#fff" stroke="var(--ink)" stroke-width="1.5"/></g>
+          <g transform="rotate(6,119,175)"><rect x="112" y="175" width="15" height="55" rx="7" fill="var(--pants)"/><ellipse cx="119" cy="228" rx="11" ry="6" fill="#fff" stroke="var(--ink)" stroke-width="1.5"/></g>
+          <rect x="85" y="130" width="60" height="75" rx="22" fill="var(--orange)"/>
+          <line x1="110" y1="136" x2="110" y2="198" stroke="var(--ink)" stroke-width="2"/>
+          <path d="M95,133 L110,145 L88,140 Z" fill="var(--ink)"/>
+          <path d="M125,133 L110,145 L132,140 Z" fill="var(--ink)"/>
+          <rect x="92" y="168" width="36" height="7" rx="3.5" fill="#FFF3EA" opacity="0.85"/>
+          <g transform="rotate(-50,92,140)">
+            <rect x="84" y="140" width="16" height="50" rx="8" fill="var(--orange)"/>
+            <rect x="83" y="170" width="18" height="28" rx="3" fill="var(--ink)"/>
+            <rect x="85.5" y="173" width="13" height="18" rx="1.5" fill="#FFF3EA" opacity="0.8"/>
+            <circle cx="92" cy="190" r="9" fill="var(--skin)"/>
+          </g>
+          <g transform="rotate(-150,128,140)">
+            <rect x="120" y="140" width="16" height="50" rx="8" fill="var(--orange)"/>
+            <circle cx="128" cy="190" r="9" fill="var(--skin)"/>
+          </g>
+          <rect x="100" y="118" width="20" height="16" fill="var(--skin)"/>
+          <circle cx="110" cy="100" r="26" fill="var(--skin)"/>
+          <ellipse cx="110" cy="82" rx="30" ry="18" fill="var(--ink)"/>
+          <ellipse cx="110" cy="98" rx="20" ry="5.5" fill="var(--cap-brim)"/>
+          <circle cx="101" cy="104" r="2.6" fill="var(--ink)"/>
+          <circle cx="119" cy="104" r="2.6" fill="var(--ink)"/>
+          <path d="M99,114 Q110,122 121,114" stroke="var(--ink)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          <ellipse cx="93" cy="110" rx="5.5" ry="3.2" fill="var(--blush)" opacity="0.5"/>
+          <ellipse cx="127" cy="110" rx="5.5" ry="3.2" fill="var(--blush)" opacity="0.5"/>
+        </svg>
         <p>Tip: los mejores videos se sienten reales, no actuados. Muestra tu día tal como es.</p>
       </div>
     </div>
@@ -440,14 +566,236 @@
       <div class="pin">📸</div>
       <div class="stop-label">Parada 4</div>
       <h2>Así se ve un día de repartidor</h2>
-      <p>Inspírate con estos momentos antes de grabar el tuyo.</p>
+      <p>Estas son las tomas que te recomendamos capturar — el orden ya lo conoces por la fórmula de arriba.</p>
       <div class="gallery">
-        <img src="images/galeria-1.png" alt="Repartidor de DiDi en su scooter">
-        <img src="images/galeria-2.png" alt="Repartidor caminando con su pedido">
-        <img src="images/galeria-3.png" alt="Repartidor saludando en su entrega">
-        <img src="images/galeria-4.png" alt="Repartidora de DiDi en su scooter">
-        <img src="images/galeria-5.png" alt="Repartidor con su mochila DiDi Food">
-        <img src="images/galeria-6.png" alt="Repartidor revisando su pedido en la app">
+        <div class="gallery-card">
+          <svg class="anim-sway card-illustration" viewBox="0 0 320 400" role="img" aria-label="Repartidor de DiDi alistándose para salir, revisando su celular">
+            <title>Repartidor de DiDi alistándose para salir, revisando su celular</title>
+            <ellipse cx="160" cy="352" rx="50" ry="10" fill="var(--ink)" opacity="0.08"/>
+            <g transform="rotate(-6,148,255)"><rect x="138" y="255" width="20" height="90" rx="10" fill="var(--pants)"/><ellipse cx="148" cy="345" rx="15" ry="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/></g>
+            <g transform="rotate(6,172,255)"><rect x="162" y="255" width="20" height="90" rx="10" fill="var(--pants)"/><ellipse cx="172" cy="345" rx="15" ry="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/></g>
+            <rect x="95" y="190" width="36" height="85" rx="15" fill="var(--orange-deep)"/>
+            <rect x="100" y="198" width="26" height="16" rx="8" fill="var(--bag-light)"/>
+            <rect x="176" y="200" width="13" height="65" rx="6" fill="var(--ink)" transform="rotate(15,182,200)"/>
+            <rect x="120" y="195" width="80" height="105" rx="30" fill="var(--orange)"/>
+            <line x1="160" y1="202" x2="160" y2="288" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M136,200 L160,216 L128,210 Z" fill="var(--ink)"/>
+            <path d="M184,200 L160,216 L192,210 Z" fill="var(--ink)"/>
+            <rect x="130" y="245" width="60" height="10" rx="5" fill="#FFF3EA" opacity="0.85"/>
+            <g transform="rotate(12,128,203)">
+              <rect x="117" y="203" width="22" height="75" rx="11" fill="var(--orange)"/>
+              <circle cx="128" cy="282" r="12" fill="var(--skin)"/>
+            </g>
+            <g transform="rotate(-55,192,203)">
+              <rect x="181" y="203" width="22" height="70" rx="11" fill="var(--orange)"/>
+              <rect x="180" y="250" width="24" height="38" rx="4" fill="var(--ink)"/>
+              <rect x="183" y="254" width="18" height="24" rx="2" fill="#FFF3EA" opacity="0.8"/>
+              <circle cx="192" cy="277" r="12" fill="var(--skin)"/>
+            </g>
+            <rect x="150" y="178" width="20" height="22" fill="var(--skin)"/>
+            <circle cx="160" cy="150" r="34" fill="var(--skin)"/>
+            <ellipse cx="160" cy="128" rx="38" ry="24" fill="var(--ink)"/>
+            <ellipse cx="160" cy="150" rx="26" ry="7" fill="var(--cap-brim)"/>
+            <circle cx="148" cy="156" r="3.2" fill="var(--ink)"/>
+            <circle cx="172" cy="156" r="3.2" fill="var(--ink)"/>
+            <path d="M146,168 Q160,178 174,168" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <ellipse cx="138" cy="163" rx="7" ry="4" fill="var(--blush)" opacity="0.5"/>
+            <ellipse cx="182" cy="163" rx="7" ry="4" fill="var(--blush)" opacity="0.5"/>
+          </svg>
+          <div class="card-caption"><span>La salida</span></div>
+          <div class="mini-play"></div>
+          <div class="progress-track"></div>
+          <div class="progress-fill"></div>
+        </div>
+        <div class="gallery-card">
+          <svg class="anim-ride card-illustration" viewBox="0 0 320 400" role="img" aria-label="Repartidor de DiDi en su scooter, en ruta">
+            <title>Repartidor de DiDi en su scooter, en ruta</title>
+            <rect x="18" y="150" width="50" height="8" rx="4" fill="var(--orange-soft)" opacity="0.7"/>
+            <rect x="12" y="180" width="60" height="8" rx="4" fill="var(--orange-soft)" opacity="0.6"/>
+            <rect x="22" y="210" width="45" height="8" rx="4" fill="var(--orange-soft)" opacity="0.5"/>
+            <rect x="20" y="345" width="280" height="8" rx="4" fill="var(--orange-soft)"/>
+            <rect x="195" y="250" width="65" height="45" rx="16" fill="var(--ink)"/>
+            <circle cx="225" cy="320" r="28" fill="#1B1512"/><circle cx="225" cy="320" r="9" fill="#fff"/>
+            <circle cx="110" cy="320" r="28" fill="#1B1512"/><circle cx="110" cy="320" r="9" fill="#fff"/>
+            <rect x="100" y="290" width="120" height="20" rx="10" fill="var(--ink)"/>
+            <ellipse cx="140" cy="300" rx="13" ry="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/>
+            <ellipse cx="165" cy="300" rx="13" ry="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/>
+            <rect x="75" y="195" width="55" height="110" rx="22" fill="var(--ink)"/>
+            <rect x="85" y="230" width="35" height="12" rx="6" fill="var(--orange)"/>
+            <circle cx="102" cy="210" r="11" fill="var(--orange)"/><circle cx="102" cy="210" r="5" fill="#FFF3EA"/>
+            <rect x="95" y="140" width="10" height="60" rx="5" fill="var(--ink)"/>
+            <rect x="65" y="128" width="70" height="15" rx="7" fill="var(--ink)" transform="rotate(-8,100,135)"/>
+            <rect x="175" y="225" width="55" height="22" rx="10" fill="var(--ink)"/>
+            <g transform="rotate(-12,175,230)">
+              <g transform="rotate(50,145,168)"><rect x="134" y="168" width="18" height="65" rx="9" fill="var(--orange)"/><circle cx="145" cy="235" r="11" fill="var(--skin)"/></g>
+              <g transform="rotate(-50,209,168)"><rect x="198" y="168" width="18" height="65" rx="9" fill="var(--orange)"/><circle cx="209" cy="235" r="11" fill="var(--skin)"/></g>
+              <rect x="140" y="150" width="75" height="95" rx="28" fill="var(--orange)"/>
+              <line x1="177" y1="158" x2="177" y2="230" stroke="var(--ink)" stroke-width="3"/>
+              <path d="M155,155 L177,170 L148,164 Z" fill="var(--ink)"/>
+              <path d="M199,155 L177,170 L206,164 Z" fill="var(--ink)"/>
+              <rect x="150" y="195" width="55" height="9" rx="4" fill="#FFF3EA" opacity="0.85"/>
+              <rect x="167" y="135" width="20" height="20" fill="var(--skin)"/>
+              <circle cx="177" cy="115" r="32" fill="var(--skin)"/>
+              <ellipse cx="177" cy="97" rx="36" ry="21" fill="var(--ink)"/>
+              <ellipse cx="177" cy="116" rx="25" ry="6" fill="var(--cap-brim)"/>
+              <circle cx="166" cy="122" r="3" fill="var(--ink)"/>
+              <circle cx="188" cy="122" r="3" fill="var(--ink)"/>
+              <path d="M164,132 Q177,140 190,132" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <ellipse cx="156" cy="126" rx="6" ry="4" fill="var(--blush)" opacity="0.5"/>
+              <ellipse cx="198" cy="126" rx="6" ry="4" fill="var(--blush)" opacity="0.5"/>
+            </g>
+          </svg>
+          <div class="card-caption"><span>En ruta</span></div>
+          <div class="mini-play"></div>
+          <div class="progress-track"></div>
+          <div class="progress-fill"></div>
+        </div>
+        <div class="gallery-card">
+          <svg class="anim-hold-sway card-illustration" viewBox="0 0 320 400" role="img" aria-label="Repartidor de DiDi recogiendo un pedido con ambas manos">
+            <title>Repartidor de DiDi recogiendo un pedido con ambas manos</title>
+            <ellipse cx="160" cy="352" rx="52" ry="10" fill="var(--ink)" opacity="0.08"/>
+            <g transform="rotate(-8,148,255)"><rect x="138" y="255" width="20" height="90" rx="10" fill="var(--pants)"/><ellipse cx="148" cy="345" rx="15" ry="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/></g>
+            <g transform="rotate(8,172,255)"><rect x="162" y="255" width="20" height="90" rx="10" fill="var(--pants)"/><ellipse cx="172" cy="345" rx="15" ry="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/></g>
+            <rect x="120" y="195" width="80" height="105" rx="30" fill="var(--orange)"/>
+            <line x1="160" y1="202" x2="160" y2="288" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M136,200 L160,216 L128,210 Z" fill="var(--ink)"/>
+            <path d="M184,200 L160,216 L192,210 Z" fill="var(--ink)"/>
+            <rect x="130" y="245" width="60" height="10" rx="5" fill="#FFF3EA" opacity="0.85"/>
+            <g transform="rotate(-60,128,203)">
+              <rect x="117" y="203" width="22" height="68" rx="11" fill="var(--orange)"/>
+              <circle cx="128" cy="271" r="12" fill="var(--skin)"/>
+            </g>
+            <g transform="rotate(60,192,203)">
+              <rect x="181" y="203" width="22" height="68" rx="11" fill="var(--orange)"/>
+              <circle cx="192" cy="271" r="12" fill="var(--skin)"/>
+            </g>
+            <rect x="138" y="250" width="44" height="40" rx="6" fill="var(--orange-deep)"/>
+            <rect x="138" y="250" width="44" height="14" rx="6" fill="var(--bag-light)"/>
+            <line x1="160" y1="250" x2="160" y2="290" stroke="var(--ink)" stroke-width="2"/>
+            <rect x="150" y="178" width="20" height="22" fill="var(--skin)"/>
+            <circle cx="160" cy="150" r="34" fill="var(--skin)"/>
+            <ellipse cx="160" cy="128" rx="38" ry="24" fill="var(--ink)"/>
+            <ellipse cx="160" cy="150" rx="26" ry="7" fill="var(--cap-brim)"/>
+            <circle cx="148" cy="156" r="3.2" fill="var(--ink)"/>
+            <circle cx="172" cy="156" r="3.2" fill="var(--ink)"/>
+            <path d="M146,168 Q160,178 174,168" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <ellipse cx="138" cy="163" rx="7" ry="4" fill="var(--blush)" opacity="0.5"/>
+            <ellipse cx="182" cy="163" rx="7" ry="4" fill="var(--blush)" opacity="0.5"/>
+          </svg>
+          <div class="card-caption"><span>El restaurante</span></div>
+          <div class="mini-play"></div>
+          <div class="progress-track"></div>
+          <div class="progress-fill"></div>
+        </div>
+        <div class="gallery-card">
+          <svg class="anim-wave-bounce card-illustration" viewBox="0 0 320 400" role="img" aria-label="Repartidor de DiDi saludando con el pedido en la mano">
+            <title>Repartidor de DiDi saludando con el pedido en la mano</title>
+            <ellipse cx="160" cy="352" rx="50" ry="10" fill="var(--ink)" opacity="0.08"/>
+            <g transform="rotate(-6,148,255)"><rect x="138" y="255" width="20" height="90" rx="10" fill="var(--pants)"/><ellipse cx="148" cy="345" rx="15" ry="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/></g>
+            <g transform="rotate(6,172,255)"><rect x="162" y="255" width="20" height="90" rx="10" fill="var(--pants)"/><ellipse cx="172" cy="345" rx="15" ry="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/></g>
+            <rect x="120" y="195" width="80" height="105" rx="30" fill="var(--orange)"/>
+            <line x1="160" y1="202" x2="160" y2="288" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M136,200 L160,216 L128,210 Z" fill="var(--ink)"/>
+            <path d="M184,200 L160,216 L192,210 Z" fill="var(--ink)"/>
+            <rect x="130" y="245" width="60" height="10" rx="5" fill="#FFF3EA" opacity="0.85"/>
+            <g transform="rotate(15,128,203)">
+              <rect x="117" y="203" width="22" height="75" rx="11" fill="var(--orange)"/>
+              <line x1="128" y1="270" x2="128" y2="278" stroke="var(--ink)" stroke-width="3"/>
+              <rect x="112" y="275" width="32" height="34" rx="6" fill="var(--orange-deep)"/>
+              <circle cx="128" cy="278" r="12" fill="var(--skin)"/>
+            </g>
+            <g transform="rotate(-150,192,203)">
+              <rect x="181" y="203" width="22" height="70" rx="11" fill="var(--orange)"/>
+              <circle cx="192" cy="277" r="12" fill="var(--skin)"/>
+            </g>
+            <rect x="150" y="178" width="20" height="22" fill="var(--skin)"/>
+            <circle cx="160" cy="150" r="34" fill="var(--skin)"/>
+            <ellipse cx="160" cy="128" rx="38" ry="24" fill="var(--ink)"/>
+            <ellipse cx="160" cy="150" rx="26" ry="7" fill="var(--cap-brim)"/>
+            <circle cx="148" cy="156" r="3.2" fill="var(--ink)"/>
+            <circle cx="172" cy="156" r="3.2" fill="var(--ink)"/>
+            <path d="M146,168 Q160,178 174,168" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <ellipse cx="138" cy="163" rx="7" ry="4" fill="var(--blush)" opacity="0.5"/>
+            <ellipse cx="182" cy="163" rx="7" ry="4" fill="var(--blush)" opacity="0.5"/>
+          </svg>
+          <div class="card-caption"><span>La entrega</span></div>
+          <div class="mini-play"></div>
+          <div class="progress-track"></div>
+          <div class="progress-fill"></div>
+        </div>
+        <div class="gallery-card">
+          <svg class="anim-breathe card-illustration" viewBox="0 0 320 400" role="img" aria-label="Retrato de un repartidor de DiDi en un momento de descanso">
+            <title>Retrato de un repartidor de DiDi en un momento de descanso</title>
+            <circle cx="160" cy="170" r="110" fill="var(--orange-soft)" opacity="0.5"/>
+            <rect x="100" y="230" width="120" height="170" rx="40" fill="var(--orange)"/>
+            <line x1="160" y1="238" x2="160" y2="380" stroke="var(--ink)" stroke-width="3"/>
+            <path d="M124,236 L160,258 L112,250 Z" fill="var(--ink)"/>
+            <path d="M196,236 L160,258 L208,250 Z" fill="var(--ink)"/>
+            <rect x="112" y="300" width="96" height="14" rx="7" fill="#FFF3EA" opacity="0.85"/>
+            <g transform="rotate(20,120,240)">
+              <rect x="108" y="240" width="26" height="85" rx="13" fill="var(--orange)"/>
+              <circle cx="120" cy="328" r="14" fill="var(--skin)"/>
+            </g>
+            <g transform="rotate(-15,200,240)">
+              <rect x="188" y="240" width="26" height="85" rx="13" fill="var(--orange)"/>
+              <rect x="190" y="300" width="20" height="28" rx="4" fill="#fff" stroke="var(--ink)" stroke-width="2"/>
+              <line x1="200" y1="300" x2="203" y2="290" stroke="var(--ink)" stroke-width="2"/>
+              <circle cx="200" cy="328" r="14" fill="var(--skin)"/>
+            </g>
+            <rect x="140" y="205" width="40" height="35" fill="var(--skin)"/>
+            <circle cx="160" cy="170" r="52" fill="var(--skin)"/>
+            <ellipse cx="160" cy="138" rx="58" ry="36" fill="var(--ink)"/>
+            <ellipse cx="160" cy="168" rx="40" ry="10" fill="var(--cap-brim)"/>
+            <path d="M140,178 q8,-8 16,0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M164,178 q8,-8 16,0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M142,196 Q160,208 178,196" stroke="var(--ink)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <ellipse cx="132" cy="188" rx="10" ry="6" fill="var(--blush)" opacity="0.5"/>
+            <ellipse cx="188" cy="188" rx="10" ry="6" fill="var(--blush)" opacity="0.5"/>
+          </svg>
+          <div class="card-caption"><span>El descanso</span></div>
+          <div class="mini-play"></div>
+          <div class="progress-track"></div>
+          <div class="progress-fill"></div>
+        </div>
+        <div class="gallery-card">
+          <svg class="anim-walk card-illustration" viewBox="0 0 320 400" role="img" aria-label="Repartidor de DiDi caminando de regreso, revisando su celular">
+            <title>Repartidor de DiDi caminando de regreso, revisando su celular</title>
+            <ellipse cx="160" cy="352" rx="50" ry="10" fill="var(--ink)" opacity="0.08"/>
+            <g transform="rotate(-24,148,255)"><rect x="138" y="255" width="20" height="90" rx="10" fill="var(--pants)"/><ellipse cx="148" cy="345" rx="15" ry="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/></g>
+            <g transform="rotate(20,172,255)"><rect x="162" y="255" width="20" height="90" rx="10" fill="var(--pants)"/><ellipse cx="172" cy="345" rx="15" ry="8" fill="#fff" stroke="var(--ink)" stroke-width="2"/></g>
+            <rect x="95" y="190" width="36" height="85" rx="15" fill="var(--orange-deep)"/>
+            <rect x="100" y="198" width="26" height="16" rx="8" fill="var(--bag-light)"/>
+            <rect x="176" y="200" width="13" height="65" rx="6" fill="var(--ink)" transform="rotate(15,182,200)"/>
+            <rect x="120" y="195" width="80" height="105" rx="30" fill="var(--orange)"/>
+            <line x1="160" y1="202" x2="160" y2="288" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M136,200 L160,216 L128,210 Z" fill="var(--ink)"/>
+            <path d="M184,200 L160,216 L192,210 Z" fill="var(--ink)"/>
+            <rect x="130" y="245" width="60" height="10" rx="5" fill="#FFF3EA" opacity="0.85"/>
+            <g transform="rotate(-20,128,203)">
+              <rect x="117" y="203" width="22" height="75" rx="11" fill="var(--orange)"/>
+              <circle cx="128" cy="278" r="12" fill="var(--skin)"/>
+            </g>
+            <g transform="rotate(-50,192,203)">
+              <rect x="181" y="203" width="22" height="68" rx="11" fill="var(--orange)"/>
+              <rect x="180" y="245" width="24" height="38" rx="4" fill="var(--ink)"/>
+              <rect x="183" y="249" width="18" height="24" rx="2" fill="#FFF3EA" opacity="0.8"/>
+              <circle cx="192" cy="271" r="12" fill="var(--skin)"/>
+            </g>
+            <rect x="150" y="178" width="20" height="22" fill="var(--skin)"/>
+            <circle cx="160" cy="150" r="34" fill="var(--skin)"/>
+            <ellipse cx="160" cy="128" rx="38" ry="24" fill="var(--ink)"/>
+            <ellipse cx="160" cy="150" rx="26" ry="7" fill="var(--cap-brim)"/>
+            <circle cx="148" cy="156" r="3.2" fill="var(--ink)"/>
+            <circle cx="172" cy="156" r="3.2" fill="var(--ink)"/>
+            <path d="M146,168 Q160,178 174,168" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <ellipse cx="138" cy="163" rx="7" ry="4" fill="var(--blush)" opacity="0.5"/>
+            <ellipse cx="182" cy="163" rx="7" ry="4" fill="var(--blush)" opacity="0.5"/>
+          </svg>
+          <div class="card-caption"><span>El cierre</span></div>
+          <div class="mini-play"></div>
+          <div class="progress-track"></div>
+          <div class="progress-fill"></div>
+        </div>
       </div>
     </div>
 
@@ -478,7 +826,6 @@
           </div>
         </div>
       </div>
-      <p class="testi-note">Ejemplos ilustrativos — reemplaza por testimonios reales de repartidores que ya participaron.</p>
     </div>
 
     <!-- PARADA 6: FORMULARIO -->
@@ -505,22 +852,26 @@
         </div>
         <div class="form-row two">
           <div>
-            <label for="username">Usuario TikTok o Instagram</label>
-            <input type="text" id="username" name="username" placeholder="@tuusuario" required>
+            <label for="instagram">Usuario de Instagram</label>
+            <input type="text" id="instagram" name="instagram" placeholder="@tuusuario">
           </div>
           <div>
-            <label for="ciudad">Ciudad</label>
-            <select id="ciudad" name="ciudad" required>
-              <option value="" disabled selected>Elige tu ciudad</option>
-              <option value="Merida">Mérida</option>
-              <option value="Aguascalientes">Aguascalientes</option>
-            </select>
+            <label for="tiktok">Usuario de TikTok</label>
+            <input type="text" id="tiktok" name="tiktok" placeholder="@tuusuario">
           </div>
         </div>
+        <div>
+          <label for="ciudad">Ciudad</label>
+          <select id="ciudad" name="ciudad" required>
+            <option value="" disabled selected>Elige tu ciudad</option>
+            <option value="Mérida">Mérida</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+          </select>
+        </div>
+        <p class="social-hint">Agrega al menos una red donde vamos a encontrar tu video.</p>
         <button type="submit" class="btn-submit">Enviar registro</button>
         <div id="form-status" class="form-status"></div>
       </form>
-      <p class="form-note">Nota técnica: este formulario aún no está conectado a ningún destino real (Google Sheet, CRM, etc.). Ahora mismo solo confirma los datos en pantalla — hay que conectarlo antes de lanzar la campaña.</p>
     </div>
 
   </div>
@@ -532,12 +883,64 @@
 </footer>
 
 <script>
+  // Formulario de Google conectado como destino de los registros.
+  const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSe6IxqX5583OFRxjF_MZL8ilj534otWEsbI-VHaxTrES1qvPA/formResponse';
+  const FORM_FIELDS = {
+    nombre: 'entry.722328330',
+    numero: 'entry.1877960673',
+    correo: 'entry.1263051608',
+    instagram: 'entry.1073928211',
+    tiktok: 'entry.547143818',
+    ciudad: 'entry.457169703'
+  };
+
   document.getElementById('contest-form').addEventListener('submit', function(e){
     e.preventDefault();
+    const form = e.target;
     const status = document.getElementById('form-status');
-    status.textContent = '¡Listo! Ya quedaste registrado. No olvides subir tu video con #MiDiaConDiDi y el hashtag de tu ciudad.';
-    status.classList.add('show', 'success');
-    e.target.reset();
+    const submitBtn = form.querySelector('.btn-submit');
+    const instagram = document.getElementById('instagram').value.trim();
+    const tiktok = document.getElementById('tiktok').value.trim();
+
+    if(!instagram && !tiktok){
+      status.textContent = 'Ponnos tu usuario de Instagram o de TikTok (puedes dejar los dos si tienes).';
+      status.classList.remove('success');
+      status.classList.add('show', 'error');
+      return;
+    }
+
+    status.classList.remove('show', 'error', 'success');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+
+    const formData = new FormData();
+    formData.append(FORM_FIELDS.nombre, document.getElementById('nombre').value.trim());
+    formData.append(FORM_FIELDS.numero, document.getElementById('numero').value.trim());
+    formData.append(FORM_FIELDS.correo, document.getElementById('correo').value.trim());
+    formData.append(FORM_FIELDS.instagram, instagram);
+    formData.append(FORM_FIELDS.tiktok, tiktok);
+    formData.append(FORM_FIELDS.ciudad, document.getElementById('ciudad').value);
+
+    fetch(GOOGLE_FORM_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData
+    })
+      .then(() => {
+        status.classList.remove('error');
+        status.textContent = '¡Listo! Ya quedaste registrado. No olvides subir tu video con #MiDiaConDiDi y el hashtag de tu ciudad.';
+        status.classList.add('show', 'success');
+        form.reset();
+      })
+      .catch(() => {
+        status.classList.remove('success');
+        status.textContent = 'Hubo un problema al enviar tus datos. Revisa tu conexión e intenta de nuevo.';
+        status.classList.add('show', 'error');
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar registro';
+      });
   });
 </script>
 
