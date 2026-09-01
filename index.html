@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -153,7 +152,7 @@
   .fstep p{font-size:14.5px;color:var(--text-muted);}
   .pro-tip{margin-top:8px;font-size:13px;color:var(--orange-deep);font-weight:700;}
 
-  /* ---- example videos, YouTube facade inside a phone frame ---- */
+  /* ---- example videos ---- */
   .video-examples{margin-top:28px;}
   .video-examples-title{font-size:16px;font-family:'DiDi Sans','Roboto',sans-serif;font-weight:700;color:var(--ink);margin-bottom:4px;}
   .video-examples-sub{font-size:14px;color:var(--text-muted);margin-bottom:16px;}
@@ -161,14 +160,11 @@
   @media(min-width:560px){.video-grid{grid-template-columns:1fr 1fr;}}
   .video-card{display:flex;flex-direction:column;align-items:center;}
 
-  .phone-frame{
-    width:100%;max-width:220px;aspect-ratio:9/17.5;background:#241F1B;border-radius:32px;
-    padding:10px;box-shadow:0 12px 24px rgba(255,95,20,0.18);position:relative;
-  }
-  /* Facade: solo una imagen (miniatura webp de YouTube) + botón play. No carga nada de video hasta el click. */
+  /* Ajuste vertical nativo para video independiente */
   .yt-facade{
-    width:100%;height:100%;border-radius:24px;overflow:hidden;position:relative;
+    width:100%;max-width:240px;aspect-ratio:9/16;border-radius:16px;overflow:hidden;position:relative;
     background:#000;cursor:pointer;border:none;padding:0;display:block;
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
   }
   .yt-facade img{width:100%;height:100%;object-fit:cover;display:block;}
   .yt-facade .yt-play{
@@ -181,11 +177,7 @@
     border-left:16px solid var(--orange-deep);
     border-top:10px solid transparent;border-bottom:10px solid transparent;
   }
-  .yt-facade iframe{width:100%;height:100%;border:0;border-radius:24px;display:block;}
-  .phone-frame::before{
-    content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);
-    width:70px;height:16px;border-radius:9px;background:#1A1310;opacity:0.9;z-index:2;
-  }
+  .video-card iframe{width:100%;max-width:240px;aspect-ratio:9/16;border:0;border-radius:16px;display:block;box-shadow:0 8px 20px rgba(0,0,0,0.12);}
   .video-card-label{margin-top:12px;font-family:'DiDi Sans','Roboto',sans-serif;font-weight:700;font-size:14.5px;color:var(--ink);text-align:center;}
 
   /* ---- testimonials ---- */
@@ -234,7 +226,6 @@
 
 <header>
   <div class="nav">
-    <!-- Antes: base64 embebido en el HTML. Ahora: archivo externo WEBP (correlo con extraer_a_webp.py sobre tu HTML real) -->
     <img class="logo-img" src="assets/logo.webp" alt="DiDi Repartidor" width="90" height="26" decoding="async">
     <a class="cta-mini" href="#formulario">Participar</a>
   </div>
@@ -254,7 +245,6 @@
         </div>
       </div>
       <div class="hero-img-wrap">
-        <!-- Antes: SVG con una captura de pantalla base64 embebida adentro. Ahora: WEBP externo simple. -->
         <img class="phone-mock-img" src="assets/hero-phone.webp" alt="Ejemplo de video en redes sociales" width="220" height="440" decoding="async">
       </div>
     </div>
@@ -356,31 +346,19 @@
         <div class="video-examples-sub">Así se ve un video ya listo, y un repartidor explicando sus tips para grabar el tuyo.</div>
         <div class="video-grid">
 
-          <!--
-            FACADE DE YOUTUBE:
-            - No carga ningún iframe ni video hasta que el usuario hace click.
-            - Antes del click solo se descarga la miniatura WEBP que sirve YouTube
-              (i.ytimg.com), cero peso para tu hosting de Firebase.
-            - Reemplaza 4ilKFuZUXzY por el ID real cuando subas el video
-              (el ID es lo que va después de "v=" en la URL de YouTube).
-          -->
           <div class="video-card">
-            <div class="phone-frame">
-              <button class="yt-facade" data-yt-id="4ilKFuZUXzY" aria-label="Reproducir: Un día como repartidor">
-                <img src="https://i.ytimg.com/vi_webp/4ilKFuZUXzY/hqdefault.webp" alt="" loading="lazy" decoding="async">
-                <span class="yt-play"></span>
-              </button>
-            </div>
+            <button class="yt-facade" data-yt-id="4ilKFuZUXzY" aria-label="Reproducir: Un día como repartidor">
+              <img src="https://i.ytimg.com/vi_webp/4ilKFuZUXzY/hqdefault.webp" alt="" loading="lazy" decoding="async">
+              <span class="yt-play"></span>
+            </button>
             <div class="video-card-label">Un día como repartidor</div>
           </div>
 
           <div class="video-card">
-            <div class="phone-frame">
-              <button class="yt-facade" data-yt-id="J1upfsnRuwM" aria-label="Reproducir: Tips para grabar tu video">
-                <img src="https://i.ytimg.com/vi_webp/J1upfsnRuwM/hqdefault.webp" alt="" loading="lazy" decoding="async">
-                <span class="yt-play"></span>
-              </button>
-            </div>
+            <button class="yt-facade" data-yt-id="J1upfsnRuwM" aria-label="Reproducir: Tips para grabar tu video">
+              <img src="https://i.ytimg.com/vi_webp/J1upfsnRuwM/hqdefault.webp" alt="" loading="lazy" decoding="async">
+              <span class="yt-play"></span>
+            </button>
             <div class="video-card-label">Tips para grabar tu video</div>
           </div>
 
