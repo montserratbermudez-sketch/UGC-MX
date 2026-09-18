@@ -2,762 +2,529 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi Día con DiDi · Votación del Jurado</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<!-- ═══════════════════════════════════════════════════════════════
-  SETUP — SOLO 2 PASOS:
-  1. En console.firebase.google.com → tu proyecto (ugcmx-eb07f):
-     Build > Realtime Database > Create Database > Start in test mode
-  2. Sube este archivo a tu hosting:
-     Pon este archivo como index.html (o votacion.html) en tu carpeta
-     public/ del proyecto Firebase y haz: firebase deploy --only hosting
-  ¡Listo! La config se auto-detecta del hosting.
-═══════════════════════════════════════════════════════════════ -->
-
-<!-- Firebase SDK — servido automáticamente por Firebase Hosting -->
-<script src="/__/firebase/10.12.0/firebase-app-compat.js"></script>
-<script src="/__/firebase/10.12.0/firebase-database-compat.js"></script>
-<script src="/__/firebase/init.js"></script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Un día siendo Repartidor · Concurso DiDi</title>
+<meta name="description" content="Cuenta tu día real repartiendo con DiDi y gánate una moto o un celular. Mérida y Aguascalientes, del 17 de agosto al 16 de septiembre.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://i.ytimg.com">
+<link rel="preconnect" href="https://www.youtube-nocookie.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --orange: #FF6C00;
-  --orange-light: #FF8A33;
-  --orange-glow: rgba(255,108,0,.15);
-  --dark: #141422;
-  --dark2: #1E1E32;
-  --card: #FFFFFF;
-  --bg: #F4F4F8;
-  --text: #1A1A2E;
-  --muted: #7A7A90;
-  --border: #E4E4EC;
-  --green: #22C55E;
-  --gold: #F59E0B;
-  --silver: #94A3B8;
-  --bronze: #D97706;
-  --radius: 14px;
-  --shadow: 0 2px 12px rgba(0,0,0,.06);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --card: #1E1E32; --bg: #111120; --text: #EEEEF4;
-    --muted: #8888A0; --border: #2E2E44; --shadow: 0 2px 12px rgba(0,0,0,.3);
+  :root{
+    --orange:#FF5F14;
+    --orange-deep:#E14E00;
+    --orange-soft:#FFE8DB;
+    --orange-soft-2:#FFF3EA;
+    --ink:#2A2320;
+    --text-muted:#7A6F67;
+    --bg:#FFFFFF;
+    --bg-alt:#FFFAF6;
+    --line:#F2E2D6;
+    --ok-bg:#E9F9F1;
+    --ok-text:#1F8F5C;
   }
-}
-:root[data-theme="dark"] {
-  --card: #1E1E32; --bg: #111120; --text: #EEEEF4;
-  --muted: #8888A0; --border: #2E2E44; --shadow: 0 2px 12px rgba(0,0,0,.3);
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family: 'Inter', -apple-system, system-ui, sans-serif;
-  background: var(--bg); color: var(--text); min-height: 100vh;
-}
-.header {
-  background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%);
-  padding: 28px 24px 20px; text-align: center; position: relative; overflow: hidden;
-}
-.header::before {
-  content: ''; position: absolute; top: -60px; right: -60px;
-  width: 200px; height: 200px;
-  background: radial-gradient(circle, var(--orange-glow) 0%, transparent 70%);
-  pointer-events: none;
-}
-.header-logo { font-size: 15px; font-weight: 700; color: var(--orange); letter-spacing: .5px; margin-bottom: 6px; }
-.header h1 { font-size: 22px; font-weight: 800; color: #FFF; line-height: 1.25; }
-.header h1 span { color: var(--orange); }
-.header-sub { font-size: 13px; color: rgba(255,255,255,.5); margin-top: 6px; }
-.juror-bar {
-  background: var(--card); border-bottom: 1px solid var(--border);
-  padding: 12px 20px; display: flex; align-items: center; gap: 10px;
-  box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100;
-}
-.juror-avatar {
-  width: 34px; height: 34px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 14px; color: #FFF;
-}
-.juror-name { font-weight: 600; font-size: 14px; flex:1; }
-.juror-badge {
-  font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600;
-}
-.login-screen {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  min-height: 70vh; padding: 40px 24px; text-align: center;
-}
-.login-screen h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-.login-screen p { font-size: 14px; color: var(--muted); margin-bottom: 28px; max-width: 340px; }
-.juror-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 360px; }
-.juror-btn {
-  background: var(--card); border: 2px solid var(--border); border-radius: var(--radius);
-  padding: 14px 10px; font-size: 14px; font-weight: 600; color: var(--text);
-  cursor: pointer; transition: all .15s; font-family: inherit;
-}
-.juror-btn:hover { border-color: var(--orange); background: var(--orange-glow); }
-.juror-btn:active { transform: scale(.97); }
-.tabs {
-  display: flex; background: var(--card); border-bottom: 1px solid var(--border);
-  padding: 0 12px; overflow-x: auto; -webkit-overflow-scrolling: touch;
-}
-.tab {
-  padding: 14px 18px; font-size: 14px; font-weight: 600; color: var(--muted);
-  cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap;
-  transition: all .15s; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit;
-}
-.tab:hover { color: var(--text); }
-.tab.active { color: var(--orange); border-bottom-color: var(--orange); }
-.content { padding: 16px; max-width: 720px; margin: 0 auto; }
-.city-label { font-size: 13px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 14px; }
-.video-card {
-  background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
-  padding: 20px; margin-bottom: 14px; border: 1px solid var(--border); transition: border-color .15s;
-}
-.video-card.voted { border-left: 4px solid var(--green); }
-.vc-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
-.vc-number {
-  width: 36px; height: 36px; background: var(--orange-glow); color: var(--orange);
-  border-radius: 10px; display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 15px; flex-shrink: 0;
-}
-.vc-info { flex: 1; min-width: 0; }
-.vc-user { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-.vc-notes { font-size: 12px; color: var(--muted); margin-top: 2px; }
-.vc-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.vc-link {
-  display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600;
-  color: #FFF; background: var(--dark); padding: 5px 12px; border-radius: 8px;
-  text-decoration: none; transition: background .15s;
-}
-.vc-link:hover { background: var(--orange); }
-.vc-link svg { width: 14px; height: 14px; }
-.criteria { display: flex; flex-direction: column; gap: 14px; }
-.criterion { display: flex; flex-direction: column; gap: 6px; }
-.criterion-header { display: flex; justify-content: space-between; align-items: center; }
-.criterion-label { font-size: 13px; font-weight: 600; }
-.criterion-weight { font-size: 11px; color: var(--muted); }
-.criterion-value { font-size: 13px; font-weight: 700; color: var(--orange); min-width: 24px; text-align: right; }
-.rating-row { display: flex; gap: 4px; }
-.rate-btn {
-  flex: 1; height: 34px; border: 2px solid var(--border); border-radius: 8px;
-  background: var(--card); color: var(--text); font-size: 13px; font-weight: 600;
-  cursor: pointer; transition: all .12s; font-family: inherit;
-}
-.rate-btn:hover { border-color: var(--orange-light); background: var(--orange-glow); }
-.rate-btn.selected { background: var(--orange); border-color: var(--orange); color: #FFF; }
-.score-bar {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
-}
-.score-label { font-size: 13px; color: var(--muted); font-weight: 500; }
-.score-value { font-size: 22px; font-weight: 800; color: var(--orange); }
-.score-saved { font-size: 12px; color: var(--green); font-weight: 600; display: flex; align-items: center; gap: 4px; }
-.ranking-section { margin-bottom: 32px; }
-.ranking-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-.ranking-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
-.ranking-row {
-  display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: var(--radius);
-  padding: 14px 16px; margin-bottom: 8px; box-shadow: var(--shadow); border: 1px solid var(--border);
-}
-.ranking-row.top3 { border-left: 4px solid; }
-.ranking-row.r1 { border-left-color: var(--gold); }
-.ranking-row.r2 { border-left-color: var(--silver); }
-.ranking-row.r3 { border-left-color: var(--bronze); }
-.rank-pos {
-  width: 30px; height: 30px; border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 14px; flex-shrink: 0;
-}
-.r1 .rank-pos { background: #FEF3C7; color: #92400E; }
-.r2 .rank-pos { background: #F1F5F9; color: #475569; }
-.r3 .rank-pos { background: #FEF3C7; color: #92400E; }
-.ranking-row:not(.top3) .rank-pos { background: var(--orange-glow); color: var(--muted); }
-.rank-info { flex: 1; min-width: 0; }
-.rank-user { font-size: 14px; font-weight: 700; }
-.rank-details { font-size: 12px; color: var(--muted); margin-top: 2px; }
-.rank-score { font-size: 18px; font-weight: 800; color: var(--orange); }
-.rank-votes { font-size: 11px; color: var(--muted); text-align: right; }
-.rank-prize { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
-.r1 .rank-prize { background: #FEF3C7; color: #92400E; }
-.r2 .rank-prize { background: #F1F5F9; color: #475569; }
-.r3 .rank-prize { background: #FEF3C7; color: #92400E; }
-.ranking-row:not(.top3) .rank-prize { background: var(--orange-glow); color: var(--orange); }
-.no-votes { text-align: center; padding: 48px 24px; color: var(--muted); font-size: 14px; }
-.progress-bar-wrap { background: var(--card); border-bottom: 1px solid var(--border); padding: 10px 20px; }
-.progress-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
-.progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--orange); border-radius: 3px; transition: width .3s; }
-.toast {
-  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-  background: var(--dark); color: #FFF; padding: 10px 20px; border-radius: 10px;
-  font-size: 13px; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,.3);
-  opacity: 0; transition: opacity .3s; z-index: 999; pointer-events: none;
-}
-.toast.show { opacity: 1; }
-.loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 24px; gap: 16px; }
-.spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--orange); border-radius: 50%; animation: spin .7s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.jv-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); padding: 3px 0; }
-.jv-name { font-weight: 600; min-width: 80px; color: var(--text); }
-.jv-scores { flex:1; }
-.jv-total { font-weight: 700; color: var(--orange); min-width: 36px; text-align: right; }
-.juror-votes-detail { margin-top: 12px; }
-/* GUIDE */
-.guide { padding-bottom: 20px; }
-.guide-section { margin-bottom: 28px; }
-.guide-num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 8px; background: var(--orange); color: #FFF; font-size: 13px; font-weight: 800; margin-bottom: 8px; }
-.guide-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-.guide-text { font-size: 14px; color: var(--muted); line-height: 1.6; }
-.guide-cards { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-.guide-card { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
-.guide-card-icon { font-size: 22px; flex-shrink: 0; }
-.guide-criteria { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
-.guide-crit { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
-.guide-crit-head { display: flex; justify-content: space-between; align-items: center; font-size: 14px; margin-bottom: 4px; }
-.guide-weight { background: var(--orange-glow); color: var(--orange); font-weight: 700; font-size: 12px; padding: 2px 8px; border-radius: 6px; }
-.guide-crit-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
-.guide-example { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-top: 10px; font-size: 14px; line-height: 1.8; }
-.guide-example-label { font-size: 11px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
-.guide-steps { display: flex; flex-direction: column; gap: 10px; }
-.guide-step { display: flex; gap: 12px; align-items: flex-start; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
-.guide-step-icon { font-size: 22px; flex-shrink: 0; line-height: 1.3; }
-.guide-step-desc { font-size: 13px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
-.guide-tips { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
-.guide-tip { font-size: 14px; color: var(--muted); line-height: 1.5; display: flex; gap: 8px; padding: 4px 0; }
-.guide-cta { background: var(--orange); color: #FFF; border: none; border-radius: 10px; padding: 14px 32px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background .15s; }
-.guide-cta:hover { background: var(--orange-light); }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'DiDi Sans','Roboto',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;height:auto;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 21px;}
+  h1,h2,h3{font-family:'DiDi Sans','Roboto',sans-serif;font-weight:700;line-height:1.15;}
+
+  /* ---- header ---- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,0.92);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;max-width:880px;margin:0 auto;}
+  .nav img.logo-img{height:26px;width:auto;}
+  .nav a.cta-mini{
+    background:var(--orange);color:#fff;font-weight:700;font-size:13.5px;
+    padding:10px 18px;border-radius:999px;text-decoration:none;
+  }
+
+  /* ---- hero ---- */
+  .hero{padding:44px 0 20px;}
+  .hero-grid{display:grid;gap:26px;align-items:center;}
+  @media(min-width:720px){.hero-grid{grid-template-columns:1.15fr 0.85fr;}}
+  .hero-hashtag{
+    font-family:'DiDi Sans','Roboto',sans-serif;font-weight:900;
+    font-size:clamp(28px,7vw,44px);color:var(--orange);
+    display:inline-block;margin-bottom:8px;letter-spacing:-0.5px;
+  }
+  .hero-sub{font-size:clamp(20px,4.5vw,28px);color:var(--ink);margin-bottom:14px;font-family:'DiDi Sans','Roboto',sans-serif;font-weight:700;}
+  .hero p{font-size:16.5px;color:var(--text-muted);max-width:480px;margin-bottom:16px;}
+  .hero-urgency{
+    font-size:14.5px;font-weight:700;color:var(--orange-deep);margin-bottom:22px;
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;}
+  .btn{
+    display:inline-block;padding:14px 26px;border-radius:999px;
+    font-weight:700;font-size:15px;text-decoration:none;text-align:center;
+    border:2px solid transparent;
+  }
+  .btn-primary{background:var(--orange);color:#fff;}
+  .btn-primary:hover{background:var(--orange-deep);}
+  .btn-ghost{border-color:var(--line);color:var(--ink);}
+  .hero-img-wrap{
+    background:var(--orange-soft-2);border-radius:24px;padding:20px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .phone-mock-img{width:100%;max-width:220px;height:auto;filter:drop-shadow(0 12px 24px rgba(255,95,20,0.18));animation:float-phone 3.5s ease-in-out infinite;border-radius:28px;}
+  @keyframes float-phone{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+
+  /* ---- route / "paradas" spine ---- */
+  .route{position:relative;padding:34px 0 10px;}
+  .route::before{
+    content:"";
+    position:absolute;left:29px;top:8px;bottom:0;width:3px;
+    background-image:linear-gradient(var(--orange-soft) 60%, transparent 40%);
+    background-size:3px 14px;background-repeat:repeat-y;
+  }
+  .stop{position:relative;padding:0 0 56px 74px;}
+  .stop:last-of-type{padding-bottom:20px;}
+  .pin{
+    position:absolute;left:0;top:-4px;width:60px;height:60px;
+    background:#fff;border:2.5px solid var(--orange);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:24px;
+    box-shadow:0 4px 10px rgba(255,95,20,0.15);
+  }
+  .stop-label{font-size:12.5px;font-weight:700;letter-spacing:1px;color:var(--orange-deep);margin-bottom:6px;text-transform:uppercase;}
+  .stop h2{font-size:clamp(22px,5vw,28px);margin-bottom:14px;color:var(--ink);}
+  .stop p{color:var(--text-muted);font-size:15.5px;max-width:560px;}
+  .stop p + p{margin-top:10px;}
+
+  .plain-note{margin-top:14px;font-size:13.5px;color:var(--text-muted);}
+
+  /* ---- hashtag highlight ---- */
+  .hashtag-highlight{
+    margin-top:14px;background:var(--orange-soft-2);border-radius:16px;
+    padding:18px 20px;
+  }
+  .hashtag-highlight .htag-row{
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 10px;margin-bottom:4px;
+  }
+  .hashtag-highlight .htag{
+    font-family:'DiDi Sans','Roboto',sans-serif;font-weight:900;
+    font-size:19px;color:var(--orange);letter-spacing:-0.2px;
+  }
+  .hashtag-highlight .htag.deep{color:var(--orange-deep);}
+  .hashtag-highlight .htag-plus{color:var(--text-muted);font-size:14px;font-weight:700;}
+  .hashtag-highlight .htag-or{color:var(--text-muted);font-size:13px;font-style:italic;}
+
+  /* ---- ganar cards ---- */
+  .ganar-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:18px;}
+  @media(min-width:620px){.ganar-grid{grid-template-columns:1fr 1fr;}}
+  .ganar-card{background:var(--bg-alt);border:1px solid var(--line);border-radius:18px;padding:22px;}
+  .ganar-card .ganar-label{font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--orange-deep);margin-bottom:8px;}
+  .ganar-card h3{font-size:17px;font-family:'DiDi Sans','Roboto',sans-serif;font-weight:700;margin-bottom:8px;color:var(--ink);}
+  .ganar-card p{color:var(--text-muted);font-size:14px;}
+  .ganar-card p + p{margin-top:8px;}
+
+  /* ---- ciudades ---- */
+  .ciudades-list{list-style:none;margin-top:16px;display:flex;flex-wrap:wrap;gap:10px 28px;}
+  .ciudades-list li{font-family:'DiDi Sans','Roboto',sans-serif;font-weight:700;font-size:19px;color:var(--ink);}
+  .req-box{
+    margin-top:22px;background:var(--bg-alt);border-left:4px solid var(--orange);
+    padding:16px 18px;border-radius:10px;font-size:14.5px;color:var(--ink);
+  }
+  .req-box strong{color:var(--orange-deep);}
+
+  /* ---- formula steps ---- */
+  .formula{display:grid;gap:14px;margin-top:22px;}
+  .fstep{
+    background:var(--bg-alt);border:1px solid var(--line);border-radius:18px;
+    padding:18px 20px;display:flex;gap:16px;
+  }
+  .fstep .fnum{
+    flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--orange);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:'DiDi Sans','Roboto',sans-serif;font-weight:700;font-size:15px;
+  }
+  .fstep h3{font-size:16px;font-family:'DiDi Sans','Roboto',sans-serif;font-weight:700;color:var(--ink);margin-bottom:6px;}
+  .fstep p{font-size:14.5px;color:var(--text-muted);}
+  .pro-tip{margin-top:8px;font-size:13px;color:var(--orange-deep);font-weight:700;}
+
+  /* ---- example videos ---- */
+  .video-examples{margin-top:28px;}
+  .video-examples-title{font-size:16px;font-family:'DiDi Sans','Roboto',sans-serif;font-weight:700;color:var(--ink);margin-bottom:4px;}
+  .video-examples-sub{font-size:14px;color:var(--text-muted);margin-bottom:16px;}
+  .video-grid{display:grid;grid-template-columns:1fr;gap:24px;}
+  @media(min-width:560px){.video-grid{grid-template-columns:1fr 1fr;}}
+  .video-card{display:flex;flex-direction:column;align-items:center;}
+
+  /* Ajuste vertical nativo para video independiente */
+  .yt-facade{
+    width:100%;max-width:240px;aspect-ratio:9/16;border-radius:16px;overflow:hidden;position:relative;
+    background:#000;cursor:pointer;border:none;padding:0;display:block;
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+  }
+  .yt-facade img{width:100%;height:100%;object-fit:cover;display:block;}
+  .yt-facade .yt-play{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.92);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .yt-facade .yt-play::after{
+    content:"";width:0;height:0;margin-left:4px;
+    border-left:16px solid var(--orange-deep);
+    border-top:10px solid transparent;border-bottom:10px solid transparent;
+  }
+  .video-card iframe{width:100%;max-width:240px;aspect-ratio:9/16;border:0;border-radius:16px;display:block;box-shadow:0 8px 20px rgba(0,0,0,0.12);}
+  .video-card-label{margin-top:12px;font-family:'DiDi Sans','Roboto',sans-serif;font-weight:700;font-size:14.5px;color:var(--ink);text-align:center;}
+
+  /* ---- testimonials ---- */
+  .testi-grid{display:grid;gap:14px;margin-top:18px;}
+  @media(min-width:620px){.testi-grid{grid-template-columns:1fr 1fr;}}
+  .testi{background:var(--bg-alt);border:1px solid var(--line);border-radius:18px;padding:20px;}
+  .testi p{color:var(--ink);font-size:15px;font-style:italic;}
+  .testi .who{display:flex;align-items:center;gap:10px;margin-top:14px;}
+  .testi .avatar{width:36px;height:36px;border-radius:50%;background:var(--orange);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;}
+  .testi .name{font-weight:700;font-size:14px;}
+  .testi .city{font-size:12px;color:var(--text-muted);}
+
+  /* ---- form ---- */
+  form{margin-top:20px;display:grid;gap:14px;}
+  label{font-size:13px;font-weight:700;color:var(--orange-deep);margin-bottom:6px;display:block;}
+  input,select{
+    width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);
+    background:var(--bg-alt);color:var(--ink);font-size:15px;font-family:'DiDi Sans','Roboto',sans-serif;
+  }
+  input:focus,select:focus{outline:none;border-color:var(--orange);}
+  .form-row{display:grid;gap:14px;}
+  @media(min-width:560px){.form-row.two{grid-template-columns:1fr 1fr;}}
+  .btn-submit{
+    background:var(--orange);color:#fff;border:none;border-radius:999px;
+    padding:15px 26px;font-weight:800;font-size:15.5px;cursor:pointer;width:100%;
+  }
+  .btn-submit:hover{background:var(--orange-deep);}
+  .form-status{font-size:14px;margin-top:6px;padding:10px 14px;border-radius:10px;display:none;}
+  .form-status.show{display:block;}
+  .form-status.success{background:var(--ok-bg);color:var(--ok-text);}
+  .social-hint{font-size:13px;color:var(--text-muted);margin-top:-4px;}
+  .form-status.error{background:var(--orange-soft);color:var(--orange-deep);}
+
+  .after-route{padding:8px 0 10px;}
+  .after-route h2{font-size:clamp(20px,4.5vw,24px);margin-bottom:14px;color:var(--ink);}
+
+  footer{
+    border-top:1px solid var(--line);margin-top:40px;padding:36px 0 50px;
+    text-align:center;color:var(--text-muted);font-size:13px;
+  }
+  footer a{color:var(--orange-deep);text-decoration:underline;}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-logo">DiDi Repartidor</div>
-  <h1>Votación del Jurado<br><span>#MiDiaConDiDi</span></h1>
-  <div class="header-sub">Ciclo 1 · Mérida & Aguascalientes</div>
+<header>
+  <div class="nav">
+    <img class="logo-img" src="assets/logo.webp" alt="DiDi Repartidor" width="90" height="26" decoding="async">
+    <a class="cta-mini" href="#formulario">Participar</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="hero-hashtag">#MiDiaConDiDi</span>
+        <div class="hero-sub">Cuéntanos tu día repartiendo.</div>
+        <p>Graba tu rutina repartiendo con DiDi, súbela a TikTok o Reels y gana premios.</p>
+        <div class="hero-urgency">🔥 Los primeros 7 en subir su video ganan seguro</div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#formulario">¡Quiero participar!</a>
+          <a class="btn btn-ghost" href="#como-grabar">Ver cómo grabar mi video</a>
+        </div>
+      </div>
+      <div class="hero-img-wrap">
+        <img class="phone-mock-img" src="assets/hero-phone.webp" alt="Ejemplo de video en redes sociales" width="220" height="440" decoding="async">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="route">
+
+    <!-- PARADA 1: COMO PARTICIPAR -->
+    <div class="stop" id="como-participar">
+      <div class="pin">🎁</div>
+      <div class="stop-label">Parada 1</div>
+      <h2>¿Cómo participar?</h2>
+      <p>Graba un video corto de tu día a día repartiendo y súbelo a TikTok o Instagram Reels con los hashtags oficiales y con tu cuenta pública. ¡Así de fácil participas!</p>
+
+      <p style="margin-top:22px;"><strong>Hashtags obligatorios:</strong></p>
+      <p>Para que tu video sea válido y pueda participar, debes agregar en la descripción (caption):</p>
+      <div class="hashtag-highlight">
+        <div class="htag-row">
+          <span class="htag">#MiDiaConDiDi</span>
+          <span class="htag-plus">+</span>
+          <span class="htag deep">#DiDiMerida</span>
+          <span class="htag-or">o</span>
+          <span class="htag deep">#DiDiAguascalientes</span>
+        </div>
+        <p class="plain-note" style="margin-top:10px;">*Sin estos dos hashtags, el sistema no podrá rastrear tu video y no contará para ningún premio.</p>
+      </div>
+    </div>
+
+    <!-- PARADA 2: QUE PUEDES GANAR -->
+    <div class="stop" id="que-puedes-ganar">
+      <div class="pin">🏆</div>
+      <div class="stop-label">Parada 2</div>
+      <h2>¿Qué puedes ganar?</h2>
+      <div class="ganar-grid">
+        <div class="ganar-card">
+          <div class="ganar-label">Top 3 mejores videos</div>
+          <h3>🥇 Moto &nbsp;·&nbsp; 🥈🥉 Celular</h3>
+          <p>Un jurado elegirá los 3 mejores videos de entre los 10 contenidos con mayor interacción (likes y comentarios), evaluando creatividad, autenticidad y claridad.</p>
+        </div>
+        <div class="ganar-card">
+          <div class="ganar-label">Premio por rapidez</div>
+          <h3>Vale de gasolina + Batería portátil</h3>
+          <p>Ganan las primeras 7 personas que publiquen su video con los hashtags correctos (se valida por la hora exacta de publicación).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARADA 3: CIUDADES -->
+    <div class="stop" id="ciudades">
+      <div class="pin">📍</div>
+      <div class="stop-label">Parada 3</div>
+      <h2>Ciudades del concurso</h2>
+      <p>El concurso corre del 17 de agosto al 16 de septiembre de 2026, solo en estas ciudades:</p>
+      <ul class="ciudades-list">
+        <li>Mérida</li>
+        <li>Aguascalientes</li>
+      </ul>
+      <div class="req-box">
+        <strong>Para participar necesitas:</strong> ser repartidor activo en DiDi Repartidor en Mérida o Aguascalientes, haber hecho al menos 5 pedidos en el último mes, y ser mayor de 18 años.
+      </div>
+    </div>
+
+    <!-- PARADA 4: COMO GRABAR -->
+    <div class="stop" id="como-grabar">
+      <div class="pin">🎬</div>
+      <div class="stop-label">Parada 4</div>
+      <h2>Cómo grabar tu video</h2>
+
+      <div class="formula">
+        <div class="fstep">
+          <div class="fnum">1</div>
+          <div>
+            <h3>✨ Elige tu idea</h3>
+            <p>Muestra tu rutina, una anécdota o tus trucos en ruta. Debe ser natural y durar entre 15 y 60 segundos.</p>
+          </div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">2</div>
+          <div>
+            <h3>🎬 Graba 4 o 5 clips cortos</h3>
+            <p>Haz tomas breves durante tu turno: alistándote, en ruta, al recoger el pedido y al entregar.</p>
+            <div class="pro-tip">💡 Tip pro: limpia la lente de tu celular antes de empezar.</div>
+          </div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">3</div>
+          <div>
+            <h3>🚀 Edita y publica</h3>
+            <p>Junta los clips en tu celular, ponle música o tu voz y súbelo a TikTok o Reels (en cuenta pública).</p>
+            <p style="margin-top:6px;"><strong>Recuerda:</strong> no muestres datos de clientes e incluye los hashtags obligatorios para participar.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-examples">
+        <div class="video-examples-title">Videos de ejemplo</div>
+        <div class="video-examples-sub">Así se ve un video ya listo, y un repartidor explicando sus tips para grabar el tuyo.</div>
+        <div class="video-grid">
+
+          <div class="video-card">
+            <button class="yt-facade" data-yt-id="4ilKFuZUXzY" aria-label="Reproducir: Un día como repartidor">
+              <img src="https://i.ytimg.com/vi_webp/4ilKFuZUXzY/hqdefault.webp" alt="" loading="lazy" decoding="async">
+              <span class="yt-play"></span>
+            </button>
+            <div class="video-card-label">Un día como repartidor</div>
+          </div>
+
+          <div class="video-card">
+            <button class="yt-facade" data-yt-id="J1upfsnRuwM" aria-label="Reproducir: Tips para grabar tu video">
+              <img src="https://i.ytimg.com/vi_webp/J1upfsnRuwM/hqdefault.webp" alt="" loading="lazy" decoding="async">
+              <span class="yt-play"></span>
+            </button>
+            <div class="video-card-label">Tips para grabar tu video</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ULTIMA PARADA: FORMULARIO -->
+    <div class="stop" id="formulario">
+      <div class="pin">🏁</div>
+      <div class="stop-label">Última parada</div>
+      <h2>Regístrate para el concurso</h2>
+      <p>Déjanos tus datos para avisarte si ganas. Esto no reemplaza el paso más importante: subir tu video con los hashtags oficiales.</p>
+
+      <form id="contest-form">
+        <div>
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+        </div>
+        <div class="form-row two">
+          <div>
+            <label for="numero">Número celular</label>
+            <input type="tel" id="numero" name="numero" placeholder="55 1234 5678" required>
+          </div>
+          <div>
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" name="correo" placeholder="tu@correo.com" required>
+          </div>
+        </div>
+        <div class="form-row two">
+          <div>
+            <label for="instagram">Usuario de Instagram</label>
+            <input type="text" id="instagram" name="instagram" placeholder="@tuusuario">
+          </div>
+          <div>
+            <label for="tiktok">Usuario de TikTok</label>
+            <input type="text" id="tiktok" name="tiktok" placeholder="@tuusuario">
+          </div>
+        </div>
+        <div>
+          <label for="ciudad">Ciudad</label>
+          <select id="ciudad" name="ciudad" required>
+            <option value="" disabled selected>Elige tu ciudad</option>
+            <option value="Mérida">Mérida</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+          </select>
+        </div>
+        <p class="social-hint">Agrega al menos una red donde vamos a encontrar tu video.</p>
+        <button type="submit" class="btn-submit">Enviar registro</button>
+        <div id="form-status" class="form-status"></div>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- TESTIMONIOS -->
+  <div class="after-route" id="testimonios">
+    <h2>Lo que dicen los repartidores</h2>
+    <div class="testi-grid">
+      <div class="testi">
+        <p>"Grabé mientras me preparaba para salir y conté por qué me gusta este trabajo. Tardé 20 minutos en hacerlo."</p>
+        <div class="who">
+          <div class="avatar">C</div>
+          <div>
+            <div class="name">Repartidor participante</div>
+            <div class="city">Mérida</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi">
+        <p>"Lo más fácil fue elegir el momento del día que más me gusta: cuando entrego el último pedido y regreso a casa."</p>
+        <div class="who">
+          <div class="avatar">C</div>
+          <div>
+            <div class="name">Repartidor participante</div>
+            <div class="city">Aguascalientes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div id="app"></div>
-<div class="toast" id="toast"></div>
+<footer>
+  <p>Concurso "Un día siendo Repartidor" · DiDi Repartidor · 17 de agosto – 16 de septiembre de 2026</p>
+  <p><a href="https://h5.didiglobal.com/silver-bullet-online/KUSXWjcopilN1kQfJJx8D">Consulta los términos y condiciones aquí</a></p>
+</footer>
 
 <script>
-// Firebase auto-initialized by /__/firebase/init.js — no config needed
-const fbDb = firebase.database();
-const votesRef = fbDb.ref('voting/votes');
-
-// ─── DATA ───────────────────────────────────────────────────────
-const JURORS = ['Mon','Patrick','Joni','Marco','Diego','Sofía','Andrés Quihui'];
-const CRITERIA = [
-  { key: 'originalidad', label: 'Originalidad', weight: 0.4 },
-  { key: 'mensajePositivo', label: 'Mensaje Positivo', weight: 0.4 },
-  { key: 'calidadVisual', label: 'Calidad Visual', weight: 0.2 },
-];
-const CITIES = {
-  merida: {
-    name: 'Mérida',
-    videos: [
-      { id: 'm1', user: '@zerocklasse', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@zerocklasse/video/7675437382581259541' },
-        { label: 'Var 2', url: 'https://www.tiktok.com/@zerocklasse/video/7681754781886582037' }
-      ]},
-      { id: 'm2', user: '@el_yukarepartidor', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@el_yukarepartidor/video/7679126514281057557' }
-      ]},
-      { id: 'm3', user: '@arnoldramosv', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@arnoldramosv/video/7680735654178786580' }
-      ]},
-      { id: 'm4', user: '@caloiisi', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@caloiisi/video/7682106443968810248' },
-        { label: 'Var 2', url: 'https://www.tiktok.com/@caloiisi/video/7683298867772755207' }
-      ]},
-      { id: 'm5', user: '@marcosescamilla50', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@marcosescamilla50/video/7684435846547672336' }
-      ]},
-      { id: 'm6', user: '@oscar.escobedo625', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@oscar.escobedo625/video/7677769131977919761' }
-      ]},
-      { id: 'm7', user: '@pakomora7', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@pakomora7/video/7680938488908221717' }
-      ]},
-    ]
-  },
-  aguascalientes: {
-    name: 'Aguascalientes',
-    videos: [
-      { id: 'a1', user: '@luisgarcia6484', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@luisgarcia6484/video/7680651819541974290' },
-        { label: 'Var 2', url: 'https://www.tiktok.com/@luisgarcia6484/video/7680652498453007623' },
-        { label: 'Var 3', url: 'https://www.tiktok.com/@luisgarcia6484/video/7680654210500660498' }
-      ]},
-      { id: 'a2', user: '@fabian.r43', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@fabian.r43/video/7680804402139188501' },
-        { label: 'Var 2', url: 'https://www.tiktok.com/@fabian.r43/video/7681133599151656213' }
-      ]},
-      { id: 'a3', user: '@ricardotorres5073', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@ricardotorres5073/video/7680995441525132552' },
-        { label: 'Var 2', url: 'https://www.tiktok.com/@ricardotorres5073/video/7681352979252808968' },
-        { label: 'Var 3', url: 'https://www.tiktok.com/@ricardotorres5073/video/7682638839386557703' }
-      ]},
-      { id: 'a4', user: '@georgyvega0', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@georgyvega0/video/7682218740527779092' }
-      ]},
-      { id: 'a5', user: '@el210v', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@el210v/video/7683070506370780437' },
-        { label: 'Var 2', url: 'https://www.tiktok.com/@el210v/video/7683861381569006869' }
-      ]},
-      { id: 'a6', user: '@chenchoglez123', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@chenchoglez123/video/7683366450962205983' }
-      ]},
-      { id: 'a7', user: '@jsirius201', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@jsirius201/video/7683593157900012821' }
-      ]},
-      { id: 'a8', user: '@98geordie', notes: 'TEL', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@98geordie/video/7684885468881669394' }
-      ]},
-      { id: 'a9', user: '@rutadelmichi', links: [
-        { label: 'Video', url: 'https://www.tiktok.com/@rutadelmichi/video/7686318698117860628' }
-      ]},
-    ]
-  }
-};
-const PRIZES = { 1: '🏍️ Moto', 2: '📱 Celular', 3: '📱 Celular' };
-const JUROR_COLORS = ['#FF6C00','#3B82F6','#8B5CF6','#EC4899','#10B981','#F59E0B','#EF4444'];
-
-// ─── STATE ──────────────────────────────────────────────────────
-let currentJuror = null;
-let currentTab = 'guia';
-let allVotes = {};
-let myVotes = {};
-let fbConnected = false;
-
-const app = document.getElementById('app');
-
-function jurorToId(name) {
-  return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
-}
-
-function calcScore(v) {
-  if (!v || v.originalidad == null || v.mensajePositivo == null || v.calidadVisual == null) return null;
-  return (v.originalidad * 0.4 + v.mensajePositivo * 0.4 + v.calidadVisual * 0.2);
-}
-
-// ─── FIREBASE SYNC ──────────────────────────────────────────────
-function initFirebase() {
-  // Listen for ALL vote changes in real time
-  votesRef.on('value', snap => {
-    const data = snap.val();
-    allVotes = data || {};
-    fbConnected = true;
-
-    // Refresh current juror's local copy
-    if (currentJuror) {
-      const docId = jurorToId(currentJuror);
-      if (allVotes[docId]) {
-        const fresh = { ...allVotes[docId] };
-        delete fresh._juror;
-        myVotes = fresh;
-      }
-    }
-
-    // Live-update rankings
-    if (currentJuror && currentTab === 'rankings') renderRankings();
-  }, err => {
-    console.log('Firebase error:', err);
-    fbConnected = false;
-  });
-
-  // Connection state
-  fbDb.ref('.info/connected').on('value', snap => {
-    fbConnected = snap.val() === true;
-    const badge = document.querySelector('.juror-badge');
-    if (badge) {
-      badge.style.background = fbConnected ? 'rgba(34,197,94,.12)' : 'var(--orange-glow)';
-      badge.style.color = fbConnected ? 'var(--green)' : 'var(--orange)';
-      badge.textContent = fbConnected ? '● Sincronizado' : '○ Conectando...';
-    }
-  });
-}
-
-function saveToFirebase() {
-  if (!currentJuror) return;
-  const docId = jurorToId(currentJuror);
-  const data = { _juror: currentJuror, ...myVotes };
-  votesRef.child(docId).set(data).catch(err => {
-    console.log('Firebase save error:', err);
-    showToast('⚠️ Error al guardar');
-  });
-}
-
-// ─── INIT ───────────────────────────────────────────────────────
-function init() {
-  app.innerHTML = '<div class="loading"><div class="spinner"></div><p style="color:var(--muted);font-size:14px">Conectando...</p></div>';
-
-  initFirebase();
-
-  // Small delay to let Firebase connect
-  setTimeout(() => {
-    try {
-      const saved = localStorage.getItem('didi_juror');
-      if (saved && JURORS.includes(saved)) {
-        currentJuror = saved;
-        loadMyVotes();
-        renderApp();
+  // --- Facade de YouTube: convierte el botón/miniatura en el iframe real solo al hacer click ---
+  document.querySelectorAll('.yt-facade').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const id = btn.getAttribute('data-yt-id');
+      if (!id || id.indexOf('YOUTUBE_ID_VIDEO') === 0) {
+        console.warn('Falta reemplazar el ID real de YouTube en data-yt-id');
         return;
       }
-    } catch(e) {}
-    renderLogin();
-  }, 800);
-}
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&playsinline=1';
+      iframe.title = 'Video de YouTube';
+      iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      btn.replaceWith(iframe);
+    }, { once: true });
+  });
 
-function loadMyVotes() {
-  const docId = jurorToId(currentJuror);
-  if (allVotes[docId]) {
-    myVotes = { ...allVotes[docId] };
-    delete myVotes._juror;
-  }
-}
+  // --- Formulario de Google conectado como destino de los registros ---
+  const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSe6IxqX5583OFRxjF_MZL8ilj534otWEsbI-VHaxTrES1qvPA/formResponse';
+  const FORM_FIELDS = {
+    nombre: 'entry.722328330',
+    numero: 'entry.1877960673',
+    correo: 'entry.1263051608',
+    instagram: 'entry.1073928211',
+    tiktok: 'entry.547143818',
+    ciudad: 'entry.457169703'
+  };
 
-// ─── RENDER LOGIN ───────────────────────────────────────────────
-function renderLogin() {
-  app.innerHTML = `
-    <div class="login-screen">
-      <h2>Selecciona tu nombre</h2>
-      <p>Identifícate como miembro del jurado para comenzar a votar.</p>
-      <div class="juror-grid">
-        ${JURORS.map((j, i) => `
-          <button class="juror-btn" onclick="selectJuror('${j}')" 
-            style="border-color:${JUROR_COLORS[i]}22">${j}</button>
-        `).join('')}
-      </div>
-    </div>
-  `;
-}
+  document.getElementById('contest-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    const form = e.target;
+    const status = document.getElementById('form-status');
+    const submitBtn = form.querySelector('.btn-submit');
+    const instagram = document.getElementById('instagram').value.trim();
+    const tiktok = document.getElementById('tiktok').value.trim();
 
-function selectJuror(name) {
-  currentJuror = name;
-  try { localStorage.setItem('didi_juror', name); } catch(e) {}
-  loadMyVotes();
-  renderApp();
-  showToast(name.split(' ')[0] + ' · ' + (fbConnected ? '✓ Votos sincronizados' : 'Conectando...'));
-}
+    if(!instagram && !tiktok){
+      status.textContent = 'Ponnos tu usuario de Instagram o de TikTok (puedes dejar los dos si tienes).';
+      status.classList.remove('success');
+      status.classList.add('show', 'error');
+      return;
+    }
 
-// ─── RENDER APP ─────────────────────────────────────────────────
-function renderApp() {
-  const ji = JURORS.indexOf(currentJuror);
-  const color = JUROR_COLORS[ji] || '#FF6C00';
-  const initial = currentJuror.charAt(0).toUpperCase();
-  const cityKeys = Object.keys(CITIES);
-  const allVideos = [...CITIES.merida.videos, ...CITIES.aguascalientes.videos];
-  const votedCount = allVideos.filter(v => myVotes[v.id] && calcScore(myVotes[v.id]) !== null).length;
-  const totalCount = allVideos.length;
-  const pct = Math.round((votedCount / totalCount) * 100);
+    status.classList.remove('show', 'error', 'success');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
 
-  app.innerHTML = `
-    <div class="juror-bar">
-      <div class="juror-avatar" style="background:${color}">${initial}</div>
-      <div class="juror-name">${currentJuror}</div>
-      <div class="juror-badge" style="background:${fbConnected ? 'rgba(34,197,94,.12)' : 'var(--orange-glow)'};color:${fbConnected ? 'var(--green)' : 'var(--orange)'}">
-        ${fbConnected ? '● Sincronizado' : '○ Conectando...'}
-      </div>
-      <button onclick="logout()" style="background:none;border:none;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit;font-weight:600">Cambiar</button>
-    </div>
-    <div class="progress-bar-wrap">
-      <div class="progress-label">${votedCount} de ${totalCount} videos evaluados (${pct}%)</div>
-      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
-    </div>
-    <div class="tabs">
-      <button class="tab ${currentTab === 'guia' ? 'active' : ''}" onclick="switchTab('guia')">📋 Guía</button>
-      ${cityKeys.map(k => `
-        <button class="tab ${currentTab === k ? 'active' : ''}" onclick="switchTab('${k}')">${CITIES[k].name}</button>
-      `).join('')}
-      <button class="tab ${currentTab === 'rankings' ? 'active' : ''}" onclick="switchTab('rankings')">Rankings</button>
-    </div>
-    <div class="content" id="tab-content"></div>
-  `;
+    const formData = new FormData();
+    formData.append(FORM_FIELDS.nombre, document.getElementById('nombre').value.trim());
+    formData.append(FORM_FIELDS.numero, document.getElementById('numero').value.trim());
+    formData.append(FORM_FIELDS.correo, document.getElementById('correo').value.trim());
+    formData.append(FORM_FIELDS.instagram, instagram);
+    formData.append(FORM_FIELDS.tiktok, tiktok);
+    formData.append(FORM_FIELDS.ciudad, document.getElementById('ciudad').value);
 
-  if (currentTab === 'rankings') renderRankings();
-  else if (currentTab === 'guia') renderGuide();
-  else renderCity(currentTab);
-}
-
-function switchTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
-  if (tab === 'rankings') renderRankings();
-  else if (tab === 'guia') renderGuide();
-  else renderCity(tab);
-}
-
-function logout() {
-  currentJuror = null;
-  try { localStorage.removeItem('didi_juror'); } catch(e) {}
-  myVotes = {};
-  renderLogin();
-}
-
-// ─── RENDER CITY ────────────────────────────────────────────────
-function renderCity(cityKey) {
-  const city = CITIES[cityKey];
-  const content = document.getElementById('tab-content');
-  content.innerHTML = `
-    <div class="city-label">${city.name} · ${city.videos.length} videos</div>
-    ${city.videos.map((v, i) => renderVideoCard(v, i + 1)).join('')}
-  `;
-}
-
-function renderVideoCard(video, num) {
-  const vote = myVotes[video.id] || {};
-  const score = calcScore(vote);
-  const isVoted = score !== null;
-  const tiktokSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.88 2.89 2.89 0 012.89-2.89c.28 0 .55.04.81.11v-3.51a6.27 6.27 0 00-.81-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.11a8.16 8.16 0 004.76 1.53v-3.45a4.84 4.84 0 01-1-.5z"/></svg>';
-  return `
-    <div class="video-card ${isVoted ? 'voted' : ''}" id="card-${video.id}">
-      <div class="vc-top">
-        <div class="vc-number">${num}</div>
-        <div class="vc-info">
-          <div class="vc-user">${video.user}</div>
-          ${video.notes ? `<div class="vc-notes">${video.notes}</div>` : ''}
-          <div class="vc-links">
-            ${video.links.map(l => `<a class="vc-link" href="${l.url}" target="_blank" rel="noopener">${tiktokSvg} ${l.label}</a>`).join('')}
-          </div>
-        </div>
-      </div>
-      <div class="criteria">
-        ${CRITERIA.map(c => `
-          <div class="criterion">
-            <div class="criterion-header">
-              <span class="criterion-label">${c.label}</span>
-              <span><span class="criterion-weight">${Math.round(c.weight*100)}%</span> <span class="criterion-value" id="val-${video.id}-${c.key}">${vote[c.key] || '—'}</span></span>
-            </div>
-            <div class="rating-row">
-              ${[1,2,3,4,5,6,7,8,9,10].map(n => `
-                <button class="rate-btn ${vote[c.key] === n ? 'selected' : ''}" onclick="rate('${video.id}','${c.key}',${n})">${n}</button>
-              `).join('')}
-            </div>
-          </div>
-        `).join('')}
-      </div>
-      <div class="score-bar">
-        <div>
-          <div class="score-label">Puntuación ponderada</div>
-          ${isVoted ? '<div class="score-saved">✓ Guardado</div>' : ''}
-        </div>
-        <div class="score-value" id="score-${video.id}">${score !== null ? score.toFixed(2) : '—'}</div>
-      </div>
-    </div>
-  `;
-}
-
-// ─── RATE ───────────────────────────────────────────────────────
-function rate(videoId, criterion, value) {
-  if (!myVotes[videoId]) myVotes[videoId] = {};
-  const isUnvote = myVotes[videoId][criterion] === value;
-  if (isUnvote) {
-    delete myVotes[videoId][criterion];
-    if (Object.keys(myVotes[videoId]).length === 0) delete myVotes[videoId];
-  } else {
-    myVotes[videoId][criterion] = value;
-  }
-
-  const valEl = document.getElementById(`val-${videoId}-${criterion}`);
-  if (valEl) valEl.textContent = isUnvote ? '—' : value;
-
-  const card = document.getElementById(`card-${videoId}`);
-  if (card) {
-    const criterionDiv = card.querySelectorAll('.criterion');
-    const ci = CRITERIA.findIndex(c => c.key === criterion);
-    if (criterionDiv[ci]) {
-      criterionDiv[ci].querySelectorAll('.rate-btn').forEach((b, i) => {
-        b.classList.toggle('selected', !isUnvote && i + 1 === value);
+    fetch(GOOGLE_FORM_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData
+    })
+      .then(() => {
+        status.classList.remove('error');
+        status.textContent = '¡Listo! Ya quedaste registrado. No olvides subir tu video con #MiDiaConDiDi y el hashtag de tu ciudad.';
+        status.classList.add('show', 'success');
+        form.reset();
+      })
+      .catch(() => {
+        status.classList.remove('success');
+        status.textContent = 'Hubo un problema al enviar tus datos. Revisa tu conexión e intenta de nuevo.';
+        status.classList.add('show', 'error');
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar registro';
       });
-    }
-  }
-
-  const vote = myVotes[videoId] || {};
-  const score = calcScore(vote);
-  const scoreEl = document.getElementById(`score-${videoId}`);
-  if (scoreEl) scoreEl.textContent = score !== null ? score.toFixed(2) : '—';
-
-  if (card) {
-    const scoreBar = card.querySelector('.score-bar > div:first-child');
-    if (score !== null) {
-      card.classList.add('voted');
-      if (scoreBar && !card.querySelector('.score-saved')) scoreBar.innerHTML += '<div class="score-saved">✓ Guardado</div>';
-    } else {
-      card.classList.remove('voted');
-      const saved = card.querySelector('.score-saved');
-      if (saved) saved.remove();
-    }
-  }
-
-  updateProgress();
-  saveToFirebase();
-}
-
-function updateProgress() {
-  const allVideos = [...CITIES.merida.videos, ...CITIES.aguascalientes.videos];
-  const votedCount = allVideos.filter(v => myVotes[v.id] && calcScore(myVotes[v.id]) !== null).length;
-  const totalCount = allVideos.length;
-  const pct = Math.round((votedCount / totalCount) * 100);
-  const label = document.querySelector('.progress-label');
-  const fill = document.querySelector('.progress-fill');
-  if (label) label.textContent = `${votedCount} de ${totalCount} videos evaluados (${pct}%)`;
-  if (fill) fill.style.width = pct + '%';
-}
-
-// ─── RENDER GUIDE ───────────────────────────────────────────────
-function renderGuide() {
-  const content = document.getElementById('tab-content');
-  if (!content) return;
-  content.innerHTML = `
-    <div class="guide">
-      <div class="guide-section">
-        <div class="guide-num">1</div>
-        <h3 class="guide-title">¿Qué estamos evaluando?</h3>
-        <p class="guide-text">Repartidores activos de DiDi grabaron videos cortos (15–60 seg) mostrando su rutina diaria como couriers. De todos los que se publicaron con los hashtags oficiales, se seleccionaron los que tuvieron mayor interacción orgánica por cada ciudad. Tu trabajo como jurado es evaluarlos para definir al Top 3 ganador de cada ciudad.</p>
-      </div>
-      <div class="guide-section">
-        <div class="guide-num">2</div>
-        <h3 class="guide-title">¿Cuántos videos voy a evaluar?</h3>
-        <div class="guide-cards">
-          <div class="guide-card"><span class="guide-card-icon">🟡</span><div><strong>Mérida</strong> — 7 videos</div></div>
-          <div class="guide-card"><span class="guide-card-icon">🔵</span><div><strong>Aguascalientes</strong> — 9 videos</div></div>
-        </div>
-        <p class="guide-text" style="margin-top:10px">En total son <strong>16 videos</strong>. Cada uno dura máximo 60 segundos, así que la evaluación completa toma entre 15 y 25 minutos.</p>
-      </div>
-      <div class="guide-section">
-        <div class="guide-num">3</div>
-        <h3 class="guide-title">Criterios de evaluación</h3>
-        <p class="guide-text">Cada video se evalúa en 3 criterios, con una escala del 1 al 10.</p>
-        <div class="guide-criteria">
-          <div class="guide-crit"><div class="guide-crit-head"><strong>Originalidad</strong><span class="guide-weight">40%</span></div><div class="guide-crit-desc">¿Es creativo y auténtico? ¿Se siente único? ¿Le puso su toque personal?</div></div>
-          <div class="guide-crit"><div class="guide-crit-head"><strong>Mensaje Positivo</strong><span class="guide-weight">40%</span></div><div class="guide-crit-desc">¿Transmite una experiencia positiva y genuina? ¿Inspira o motiva? ¿El tono es natural?</div></div>
-          <div class="guide-crit"><div class="guide-crit-head"><strong>Calidad Visual</strong><span class="guide-weight">20%</span></div><div class="guide-crit-desc">¿Se ve y escucha bien? ¿La edición es limpia? ¿Buena iluminación y audio claro?</div></div>
-        </div>
-        <div class="guide-example">
-          <div class="guide-example-label">Ejemplo de cálculo</div>
-          Originalidad: <strong style="color:var(--orange)">8</strong> × 0.40 = 3.20<br>
-          Mensaje Positivo: <strong style="color:var(--orange)">7</strong> × 0.40 = 2.80<br>
-          Calidad Visual: <strong style="color:var(--orange)">9</strong> × 0.20 = 1.80<br>
-          <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-weight:700">Puntuación ponderada = <span style="color:var(--orange)">7.80</span> / 10</div>
-        </div>
-      </div>
-      <div class="guide-section">
-        <div class="guide-num">4</div>
-        <h3 class="guide-title">Paso a paso para votar</h3>
-        <div class="guide-steps">
-          <div class="guide-step"><span class="guide-step-icon">👤</span><div><strong>Identifícate</strong><div class="guide-step-desc">Selecciona tu nombre de la lista del jurado.</div></div></div>
-          <div class="guide-step"><span class="guide-step-icon">🎬</span><div><strong>Abre el video en TikTok</strong><div class="guide-step-desc">Cada video tiene un <strong>botón negro con el ícono de TikTok</strong> que dice "Video". Haz clic y se abrirá en una nueva pestaña. Algunos tienen variantes (Var 2, Var 3) — son versiones distintas del mismo creador.</div></div></div>
-          <div class="guide-step"><span class="guide-step-icon">⭐</span><div><strong>Califica del 1 al 10</strong><div class="guide-step-desc">Haz clic en el número que quieras dar para cada criterio. Para cambiar, clic en otro número. Para <strong>quitar tu voto</strong>, clic otra vez en el número seleccionado.</div></div></div>
-          <div class="guide-step"><span class="guide-step-icon">💾</span><div><strong>Se guarda automáticamente</strong><div class="guide-step-desc">No hay botón de "enviar". Cada voto se guarda al instante y se sincroniza con los demás jurados.</div></div></div>
-          <div class="guide-step"><span class="guide-step-icon">📊</span><div><strong>Consulta el ranking</strong><div class="guide-step-desc">En la pestaña "Rankings" ves el score promedio, los votos de cada jurado y quién va ganando.</div></div></div>
-        </div>
-      </div>
-      <div class="guide-section">
-        <div class="guide-num">5</div>
-        <h3 class="guide-title">Premios por ciudad</h3>
-        <div class="guide-cards">
-          <div class="guide-card"><span class="guide-card-icon">🥇</span><div><strong>1er lugar</strong> — Motocicleta Haojue DM150 2026</div></div>
-          <div class="guide-card"><span class="guide-card-icon">🥈</span><div><strong>2do lugar</strong> — Samsung Galaxy A57 5G</div></div>
-          <div class="guide-card"><span class="guide-card-icon">🥉</span><div><strong>3er lugar</strong> — Samsung Galaxy A57 5G</div></div>
-          <div class="guide-card"><span class="guide-card-icon">⛽</span><div><strong>Early Bird (4–10)</strong> — Tarjeta gasolina $1,000 + Power bank</div></div>
-        </div>
-      </div>
-      <div class="guide-section">
-        <div class="guide-num">6</div>
-        <h3 class="guide-title">Desempates</h3>
-        <div class="guide-cards">
-          <div class="guide-card"><span class="guide-card-icon">1️⃣</span><div><strong>Mayor puntaje en Originalidad</strong></div></div>
-          <div class="guide-card"><span class="guide-card-icon">2️⃣</span><div><strong>Publicación más antigua</strong></div></div>
-        </div>
-      </div>
-      <div class="guide-section">
-        <div class="guide-num">7</div>
-        <h3 class="guide-title">Tips para una evaluación justa</h3>
-        <div class="guide-tips">
-          <div class="guide-tip"><span style="color:var(--orange);font-weight:800">→</span> Mira todos los videos de una ciudad antes de calificar.</div>
-          <div class="guide-tip"><span style="color:var(--orange);font-weight:800">→</span> Usa todo el rango del 1 al 10 para mayor diferenciación.</div>
-          <div class="guide-tip"><span style="color:var(--orange);font-weight:800">→</span> Evalúa lo que ves, no quién lo hizo.</div>
-          <div class="guide-tip"><span style="color:var(--orange);font-weight:800">→</span> Si hay variantes, basa tu calificación en la mejor.</div>
-        </div>
-      </div>
-      <div style="text-align:center;margin-top:28px">
-        <button class="guide-cta" onclick="currentTab='merida';renderApp()">Comenzar a votar →</button>
-      </div>
-    </div>
-  `;
-}
-
-// ─── RENDER RANKINGS ────────────────────────────────────────────
-function renderRankings() {
-  const content = document.getElementById('tab-content');
-  if (!content) return;
-  let html = '';
-
-  for (const [cityKey, city] of Object.entries(CITIES)) {
-    const videoScores = city.videos.map(v => {
-      const jurorScores = [];
-      const jurorDetails = [];
-      for (const [jurorKey, jurorData] of Object.entries(allVotes)) {
-        const jName = jurorData._juror || jurorKey;
-        if (jurorData[v.id]) {
-          const s = calcScore(jurorData[v.id]);
-          if (s !== null) {
-            jurorScores.push(s);
-            jurorDetails.push({ name: jName, o: jurorData[v.id].originalidad, m: jurorData[v.id].mensajePositivo, c: jurorData[v.id].calidadVisual, score: s });
-          }
-        }
-      }
-      const avg = jurorScores.length > 0 ? jurorScores.reduce((a, b) => a + b, 0) / jurorScores.length : 0;
-      const origScores = jurorDetails.map(j => j.o);
-      const origAvg = origScores.length > 0 ? origScores.reduce((a, b) => a + b, 0) / origScores.length : 0;
-      return { ...v, avgScore: avg, origAvg, voteCount: jurorScores.length, jurorDetails };
-    });
-    videoScores.sort((a, b) => b.avgScore - a.avgScore || b.origAvg - a.origAvg);
-
-    html += `
-      <div class="ranking-section">
-        <div class="ranking-title">${city.name}</div>
-        <div class="ranking-subtitle">${city.videos.length} videos · Ordenado por puntuación ponderada promedio</div>
-        ${videoScores.every(v => v.voteCount === 0) ? '<div class="no-votes">Aún no hay votos para esta ciudad</div>' :
-          videoScores.map((v, i) => {
-            const pos = i + 1, isTop3 = pos <= 3, rClass = isTop3 ? `top3 r${pos}` : '';
-            const prize = pos <= 3 ? PRIZES[pos] : (pos <= 10 ? '⛽ Early Bird' : '');
-            return `
-              <div class="ranking-row ${rClass}">
-                <div class="rank-pos">${pos}</div>
-                <div class="rank-info">
-                  <div class="rank-user">${v.user}</div>
-                  <div class="rank-details">
-                    O: ${v.origAvg.toFixed(1)} · M: ${(v.jurorDetails.length > 0 ? v.jurorDetails.reduce((a,j) => a+j.m, 0)/v.jurorDetails.length : 0).toFixed(1)} · C: ${(v.jurorDetails.length > 0 ? v.jurorDetails.reduce((a,j) => a+j.c, 0)/v.jurorDetails.length : 0).toFixed(1)}
-                  </div>
-                  ${v.jurorDetails.length > 0 ? `<div class="juror-votes-detail">${v.jurorDetails.map(j => `
-                    <div class="jv-row"><span class="jv-name">${j.name.split(' ')[0]}</span><span class="jv-scores">O:${j.o} M:${j.m} C:${j.c}</span><span class="jv-total">${j.score.toFixed(1)}</span></div>
-                  `).join('')}</div>` : ''}
-                </div>
-                <div style="text-align:right">
-                  <div class="rank-score">${v.avgScore > 0 ? v.avgScore.toFixed(2) : '—'}</div>
-                  <div class="rank-votes">${v.voteCount} voto${v.voteCount !== 1 ? 's' : ''}</div>
-                  ${prize ? `<div class="rank-prize">${prize}</div>` : ''}
-                </div>
-              </div>
-            `;
-          }).join('')}
-      </div>
-    `;
-  }
-  content.innerHTML = html;
-}
-
-// ─── BOOT ───────────────────────────────────────────────────────
-init();
+  });
 </script>
+
 </body>
 </html>
